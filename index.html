@@ -1280,27 +1280,196 @@
     </main>
 
     <!-- =================================================================== -->
+    <!-- SCREEN 5: AURA ATELIER ACCESS (Collector Sign In & Biometric Auth)  -->
+    <!-- =================================================================== -->
+    <main class="view-section flex-col relative w-full pt-2 pb-28 bg-surface flex-1" id="view-access">
+      <div class="flex flex-col w-full text-on-surface">
+        <div class="relative w-full overflow-hidden px-margin py-space-lg flex flex-col items-center">
+          <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute top-1/3 -right-20 w-64 h-64 bg-secondary-container/5 rounded-full blur-3xl pointer-events-none"></div>
+
+          <!-- Top Emblem & Title -->
+          <div class="relative z-10 flex flex-col items-center text-center max-w-sm mb-space-lg">
+            <div class="relative mb-space-md flex items-center justify-center">
+              <div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center shadow-xl hairline-gold">
+                <svg class="w-9 h-9 text-primary" fill="none" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-opacity="0.3" stroke-width="1"></circle>
+                  <path d="M20 7L28 29H24.5L22.5 23.5H17.5L15.5 29H12L20 7Z" fill="currentColor"></path>
+                  <circle cx="20" cy="18" fill="#121316" r="2.5"></circle>
+                  <path d="M14 26C14 26 17 25 20 25C23 25 26 26 26 26" stroke="#121316" stroke-linecap="round" stroke-width="1.5"></path>
+                </svg>
+              </div>
+              <div class="absolute -bottom-1 px-2 py-0.5 rounded-full bg-surface-container-lowest text-primary text-label-caps font-label-caps tracking-widest hairline-border">
+                STUDIO MK IV
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 mb-space-xs text-primary font-label-caps text-label-caps tracking-widest uppercase">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              <span>Acoustic Chamber Protocol</span>
+            </div>
+            <h1 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface tracking-tight mb-space-xs" id="atelierAccessHeading">
+              AURA Atelier Access
+            </h1>
+            <p class="text-body-sm font-body-sm text-on-surface-variant max-w-xs leading-relaxed" id="atelierAccessSubheading">
+              Sign in to access your saved bespoke hardware configurations, personal acoustic calibrations, and vault allocations.
+            </p>
+          </div>
+
+          <!-- Auth Card -->
+          <div class="relative z-10 w-full max-w-sm bg-surface-container-low rounded-xl p-space-lg shadow-2xl flex flex-col gap-space-md hairline-border">
+            <!-- OAuth Providers -->
+            <div class="flex flex-col gap-space-sm">
+              <button class="w-full h-12 rounded-full bg-surface-bright hover:bg-surface-variant text-on-surface flex items-center justify-center gap-3 px-space-md transition-all active:scale-[0.98] shadow-sm" id="google-auth-btn" type="button">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+                </svg>
+                <span class="font-body-md text-body-md font-medium tracking-wide">Continue with Google</span>
+              </button>
+              <button class="w-full h-12 rounded-full bg-[#1877F2] hover:bg-[#166fe5] text-white flex items-center justify-center gap-3 px-space-md transition-all active:scale-[0.98] shadow-md" id="facebook-auth-btn" type="button">
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                </svg>
+                <span class="font-body-md text-body-md font-medium tracking-wide">Continue with Facebook</span>
+              </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="relative flex items-center justify-center py-space-xs">
+              <div class="w-full h-px bg-surface-variant"></div>
+              <span class="absolute bg-surface-container-low px-3 font-spec-code-sm text-spec-code-sm text-on-surface-variant tracking-widest uppercase" id="authDividerLabel">
+                Or Secure Email Sign In
+              </span>
+            </div>
+
+            <!-- Email & Passkey Sign In Form -->
+            <form class="flex flex-col gap-space-md" id="vault-auth-form">
+              <!-- Optional Collector Name field shown when Requesting Membership -->
+              <div class="hidden flex-col gap-1.5" id="register-name-group">
+                <div class="flex justify-between items-center px-1">
+                  <label class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider text-on-surface-variant" for="collector-fullname">
+                    Collector Full Name
+                  </label>
+                  <span class="font-spec-code-sm text-spec-code-sm text-secondary">GENEVA TIER</span>
+                </div>
+                <div class="relative flex items-center bg-surface-container-highest rounded-lg px-3 py-2.5 transition-colors focus-within:bg-surface-variant">
+                  <span class="material-symbols-outlined text-outline text-xl mr-2.5 select-none">badge</span>
+                  <input class="w-full bg-transparent text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none" id="collector-fullname" placeholder="Julian Vance" type="text"/>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <div class="flex justify-between items-center px-1">
+                  <label class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider text-on-surface-variant" for="collector-email">
+                    Atelier Email Address
+                  </label>
+                  <span class="font-spec-code-sm text-spec-code-sm text-primary" id="collectorSlotBadge">SLOT #01</span>
+                </div>
+                <div class="relative flex items-center bg-surface-container-highest rounded-lg px-3 py-2.5 transition-colors focus-within:bg-surface-variant">
+                  <span class="material-symbols-outlined text-outline text-xl mr-2.5 select-none">alternate_email</span>
+                  <input class="w-full bg-transparent text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none" id="collector-email" placeholder="collector@aura-acoustic.com" required="" type="email" value="collector@aura-acoustic.com"/>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <div class="flex justify-between items-center px-1">
+                  <label class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider text-on-surface-variant" for="vault-passkey">
+                    Vault Passkey / Password
+                  </label>
+                  <button class="font-spec-code-sm text-spec-code-sm text-primary hover:text-primary-fixed transition-colors" id="forgot-passkey-btn" type="button">
+                    Forgot?
+                  </button>
+                </div>
+                <div class="relative flex items-center bg-surface-container-highest rounded-lg px-3 py-2.5 transition-colors focus-within:bg-surface-variant">
+                  <span class="material-symbols-outlined text-outline text-xl mr-2.5 select-none">key</span>
+                  <input class="w-full bg-transparent text-on-surface placeholder:text-outline font-spec-code-lg text-spec-code-lg tracking-widest focus:outline-none" id="vault-passkey" placeholder="••••••••••••••••" required="" type="password" value="AURA-MK4-GENEVA"/>
+                  <button aria-label="Toggle password view" class="text-outline hover:text-on-surface flex items-center justify-center p-1 focus:outline-none" id="toggle-passkey-visibility" type="button">
+                    <span class="material-symbols-outlined text-xl" id="eye-icon">visibility</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between px-1">
+                <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                  <input checked="" class="w-4 h-4 rounded bg-surface-container-highest accent-primary text-primary focus:ring-0 cursor-pointer" id="keep-session-checkbox" type="checkbox"/>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Keep vault session active</span>
+                </label>
+                <span class="flex items-center gap-1 font-spec-code-sm text-spec-code-sm text-secondary-fixed">
+                  <span class="material-symbols-outlined text-sm">wifi_tethering</span>
+                  30D SYNC
+                </span>
+              </div>
+
+              <button class="w-full h-12 mt-space-xs rounded-full bg-primary hover:bg-primary-fixed text-on-primary font-headline-sm text-headline-sm text-base font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-primary/20" id="vault-auth-submit-btn" type="submit">
+                <span id="vault-auth-submit-label">Access Acoustic Vault</span>
+                <span class="material-symbols-outlined text-xl">arrow_forward</span>
+              </button>
+            </form>
+
+            <!-- Biometric Enclave Trigger -->
+            <div class="w-full pt-space-xs">
+              <button class="w-full py-2.5 px-3 rounded-lg bg-surface-container-high hover:bg-surface-bright flex items-center justify-between text-left transition-colors" id="biometric-trigger" type="button">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-lg">fingerprint</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-body-sm text-body-sm font-medium text-on-surface">Face ID / Touch ID</span>
+                    <span class="font-spec-code-sm text-spec-code-sm text-outline">Acoustic Secure Enclave</span>
+                  </div>
+                </div>
+                <span class="font-spec-code-sm text-spec-code-sm px-2 py-1 rounded bg-surface-container-lowest text-secondary-fixed" id="biometric-status-badge">READY</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Footer Membership & ISO-27001 Badge -->
+          <div class="relative z-10 w-full max-w-sm mt-space-lg flex flex-col items-center gap-space-md text-center">
+            <div class="flex items-center gap-1.5">
+              <span class="font-body-sm text-body-sm text-on-surface-variant" id="membershipPromptLabel">New collector?</span>
+              <button class="font-body-sm text-body-sm font-medium text-primary hover:underline" id="request-membership-btn" type="button">
+                Request Atelier Membership
+              </button>
+            </div>
+            <div class="w-full bg-surface-container-lowest rounded-lg p-3 flex items-center justify-center gap-2.5 hairline-border">
+              <span class="material-symbols-outlined text-sm text-outline">shield</span>
+              <span class="font-spec-code-sm text-spec-code-sm text-outline tracking-wider uppercase">
+                256-Bit Anechoic Vault Encryption // ISO-27001 Certified
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- =================================================================== -->
     <!-- GLOBAL FLOATING PILL NAVIGATION BAR                                 -->
     <!-- =================================================================== -->
     <nav class="fixed bottom-0 left-0 right-0 z-40 pb-safe pointer-events-none">
       <div class="mx-auto px-margin pb-3 max-w-md w-full">
-        <div class="pointer-events-auto flex items-center justify-around h-16 rounded-full bg-surface-container-lowest/90 backdrop-blur-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.85),0_0_1px_1px_rgba(226,232,240,0.12)] px-2">
+        <div class="pointer-events-auto flex items-center justify-around h-16 rounded-full bg-surface-container-lowest/90 backdrop-blur-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.85),0_0_1px_1px_rgba(226,232,240,0.12)] px-1.5">
           <button class="nav-tab-btn flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 transition-all gap-0.5 text-primary-container drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]" data-target="discover" type="button">
-            <span class="material-symbols-outlined text-[22px]">album</span>
-            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">Discover</span>
+            <span class="material-symbols-outlined text-[21px]">album</span>
+            <span class="font-spec-code-sm text-[10px] tracking-wider uppercase scale-90">Discover</span>
           </button>
           <button class="nav-tab-btn flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant hover:text-on-surface transition-all gap-0.5" data-target="3d-studio" type="button">
-            <span class="material-symbols-outlined text-[22px]">view_in_ar</span>
-            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">3D Studio</span>
+            <span class="material-symbols-outlined text-[21px]">view_in_ar</span>
+            <span class="font-spec-code-sm text-[10px] tracking-wider uppercase scale-90">3D Studio</span>
           </button>
           <button class="nav-tab-btn flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant hover:text-on-surface transition-all gap-0.5" data-target="customizer" type="button">
-            <span class="material-symbols-outlined text-[22px]">equalizer</span>
-            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">Customizer</span>
+            <span class="material-symbols-outlined text-[21px]">equalizer</span>
+            <span class="font-spec-code-sm text-[10px] tracking-wider uppercase scale-90">Customizer</span>
           </button>
           <button class="nav-tab-btn relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant hover:text-on-surface transition-all gap-0.5" data-target="vault-cart" type="button">
-            <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
-            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">Vault</span>
-            <span class="absolute top-1.5 right-4 min-w-[16px] h-4 px-1 rounded-full bg-primary-container text-on-primary-container font-spec-code-sm text-[9px] font-bold flex items-center justify-center" id="navVaultCountBadge">1</span>
+            <span class="material-symbols-outlined text-[21px]">shopping_bag</span>
+            <span class="font-spec-code-sm text-[10px] tracking-wider uppercase scale-90">Vault</span>
+            <span class="absolute top-1.5 right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-primary-container text-on-primary-container font-spec-code-sm text-[9px] font-bold flex items-center justify-center" id="navVaultCountBadge">1</span>
+          </button>
+          <button class="nav-tab-btn flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant hover:text-on-surface transition-all gap-0.5" data-target="access" type="button">
+            <span class="material-symbols-outlined text-[21px]">fingerprint</span>
+            <span class="font-spec-code-sm text-[10px] tracking-wider uppercase scale-90">Access</span>
           </button>
         </div>
       </div>
@@ -1398,14 +1567,23 @@
         <div class="flex items-center gap-3">
           <img alt="Profile" class="w-11 h-11 rounded-full object-cover ring-2 ring-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1HlMImWLamzjOr7gaYoQAgiYClNRbsBMGgM9a3jKxFf-P0PJFq9j8ZGzsscrztJ642VH2Td1cPaZHohUavyqPO67HtgimFSY-QwPRM7KfRBwsMizAIbk_r_3peSGw_TcNeH8LAwivjimuzSwIzGQPZzBS1ENoe6TIxSD7BnSlC2WO1jvMv5p-JJcNjVaylg7u-8qBk5GfBO2YL5n8oTa4lSahcDJyJ6qI-sy39ao"/>
           <div>
-            <span class="font-label-caps text-label-caps text-primary uppercase">Geneva Founders Tier</span>
-            <h3 class="font-headline-sm text-[18px] text-on-surface">Atelier Member #089</h3>
+            <span class="font-label-caps text-label-caps text-primary uppercase" id="profileCollectorTier">Geneva Founders Tier • SLOT #01</span>
+            <h3 class="font-headline-sm text-[18px] text-on-surface" id="profileCollectorName">Atelier Member #089</h3>
+            <span class="font-spec-code-sm text-[11px] text-secondary block" id="profileCollectorEmail">collector@aura-acoustic.com</span>
           </div>
         </div>
         <button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="closeProfileModalBtn" type="button">
           <span class="material-symbols-outlined text-[18px]">close</span>
         </button>
       </div>
+
+      <button class="w-full py-2.5 px-3.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface flex items-center justify-between transition-colors hairline-border" id="profileOpenAccessBtn" type="button">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[18px]">fingerprint</span>
+          <span class="font-body-sm text-body-sm font-medium">AURA Atelier Access (Sign In / Switch Collector)</span>
+        </div>
+        <span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_forward</span>
+      </button>
 
       <div class="flex flex-col gap-2">
         <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-wider">Bookmarked Acoustic Editions</span>

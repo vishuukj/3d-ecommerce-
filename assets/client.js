@@ -185,7 +185,8 @@
     'discover': 'Discover',
     '3d-studio': '3D Studio',
     'customizer': 'Customizer',
-    'vault-cart': 'Vault / Cart'
+    'vault-cart': 'Vault / Cart',
+    'access': 'Atelier Access'
   };
 
   function switchTab(targetTab, options = {}) {
@@ -2111,8 +2112,171 @@
     });
   }
 
+  const profileOpenAccessBtn = document.getElementById('profileOpenAccessBtn');
+  if (profileOpenAccessBtn && profileModal) {
+    profileOpenAccessBtn.addEventListener('click', () => {
+      profileModal.classList.add('hidden');
+      profileModal.classList.remove('flex');
+      switchTab('access');
+    });
+  }
+
   // =========================================================================
-  // 12. INITIALIZE APP
+  // 12. SCREEN 5: AURA ATELIER ACCESS (COLLECTOR SIGN IN & BIOMETRIC ENCLAVE)
+  // =========================================================================
+  const passkeyInput = document.getElementById('vault-passkey');
+  const togglePasskeyBtn = document.getElementById('toggle-passkey-visibility');
+  const eyeIcon = document.getElementById('eye-icon');
+  const biometricBtn = document.getElementById('biometric-trigger');
+  const biometricBadge = document.getElementById('biometric-status-badge');
+  const googleAuthBtn = document.getElementById('google-auth-btn');
+  const facebookAuthBtn = document.getElementById('facebook-auth-btn');
+  const vaultAuthForm = document.getElementById('vault-auth-form');
+  const collectorEmailInput = document.getElementById('collector-email');
+  const collectorFullnameInput = document.getElementById('collector-fullname');
+  const forgotPasskeyBtn = document.getElementById('forgot-passkey-btn');
+  const requestMembershipBtn = document.getElementById('request-membership-btn');
+  const registerNameGroup = document.getElementById('register-name-group');
+  const atelierAccessHeading = document.getElementById('atelierAccessHeading');
+  const authDividerLabel = document.getElementById('authDividerLabel');
+  const vaultAuthSubmitLabel = document.getElementById('vault-auth-submit-label');
+  const membershipPromptLabel = document.getElementById('membershipPromptLabel');
+
+  let isMembershipRegisterMode = false;
+
+  // Load saved collector session if present
+  const savedCollector = JSON.parse(localStorage.getItem('aura_collector_session') || 'null');
+  if (savedCollector) {
+    applyCollectorIdentity(savedCollector.name, savedCollector.email, savedCollector.tier);
+  }
+
+  function applyCollectorIdentity(name, email, tier) {
+    const profileNameEl = document.getElementById('profileCollectorName');
+    const profileEmailEl = document.getElementById('profileCollectorEmail');
+    const profileTierEl = document.getElementById('profileCollectorTier');
+    const checkoutNameEl = document.getElementById('checkoutName');
+    const checkoutEmailEl = document.getElementById('checkoutEmail');
+
+    if (profileNameEl && name) profileNameEl.textContent = name;
+    if (profileEmailEl && email) profileEmailEl.textContent = email;
+    if (profileTierEl && tier) profileTierEl.textContent = tier;
+    if (checkoutNameEl && name) checkoutNameEl.value = name;
+    if (checkoutEmailEl && email) checkoutEmailEl.value = email;
+    if (collectorEmailInput && email) collectorEmailInput.value = email;
+  }
+
+  function completeCollectorSignIn(name, email, methodLabel) {
+    const keepActive = document.getElementById('keep-session-checkbox')?.checked !== false;
+    const sessionData = {
+      name: name || 'Julian Vance',
+      email: email || 'collector@aura-acoustic.com',
+      tier: `Geneva Founders Tier • ${methodLabel}`
+    };
+    if (keepActive) {
+      localStorage.setItem('aura_collector_session', JSON.stringify(sessionData));
+    }
+    applyCollectorIdentity(sessionData.name, sessionData.email, sessionData.tier);
+    triggerToast(`Authenticated (${methodLabel}) — Vault Unlocked`);
+    setTimeout(() => {
+      switchTab('vault-cart');
+    }, 500);
+  }
+
+  // 1. Toggle Passkey Visibility
+  if (togglePasskeyBtn && passkeyInput && eyeIcon) {
+    togglePasskeyBtn.addEventListener('click', () => {
+      const isPassword = passkeyInput.type === 'password';
+      passkeyInput.type = isPassword ? 'text' : 'password';
+      eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+    });
+  }
+
+  // 2. Face ID / Touch ID Biometric Trigger
+  if (biometricBtn && biometricBadge) {
+    biometricBtn.addEventListener('click', () => {
+      biometricBadge.textContent = 'SCANNING...';
+      biometricBadge.classList.remove('text-secondary-fixed');
+      biometricBadge.classList.add('text-primary');
+      triggerToast('Scanning Acoustic Secure Enclave...');
+
+      setTimeout(() => {
+        biometricBadge.textContent = 'VERIFIED';
+        biometricBadge.classList.remove('text-primary');
+        biometricBadge.classList.add('text-secondary-fixed');
+        completeCollectorSignIn(
+          'Julian Vance (#089)',
+          collectorEmailInput?.value || 'collector@aura-acoustic.com',
+          'Face ID Enclave'
+        );
+      }, 850);
+    });
+  }
+
+  // 3. Continue with Google
+  if (googleAuthBtn) {
+    googleAuthBtn.addEventListener('click', () => {
+      completeCollectorSignIn('Julian Vance', 'julian.vance@gmail.com', 'Google OAuth');
+    });
+  }
+
+  // 4. Continue with Facebook
+  if (facebookAuthBtn) {
+    facebookAuthBtn.addEventListener('click', () => {
+      completeCollectorSignIn('Julian Vance', 'j.vance@atelier.ch', 'Facebook SSO');
+    });
+  }
+
+  // 5. Email & Vault Passkey Sign In / Membership Submit
+  if (vaultAuthForm) {
+    vaultAuthForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = collectorEmailInput?.value.trim() || 'collector@aura-acoustic.com';
+      const customName = collectorFullnameInput?.value.trim();
+      const derivedName = customName || email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const modeTag = isMembershipRegisterMode ? 'New Founder #090' : 'SLOT #01 Passkey';
+      completeCollectorSignIn(derivedName, email, modeTag);
+    });
+  }
+
+  // 6. Forgot Passkey Recovery
+  if (forgotPasskeyBtn) {
+    forgotPasskeyBtn.addEventListener('click', () => {
+      const email = collectorEmailInput?.value.trim() || 'collector@aura-acoustic.com';
+      triggerToast(`Encrypted Passkey Recovery Sent to ${email}`);
+    });
+  }
+
+  // 7. Request Atelier Membership Mode Toggle
+  if (requestMembershipBtn) {
+    requestMembershipBtn.addEventListener('click', () => {
+      isMembershipRegisterMode = !isMembershipRegisterMode;
+      if (isMembershipRegisterMode) {
+        if (registerNameGroup) {
+          registerNameGroup.classList.remove('hidden');
+          registerNameGroup.classList.add('flex');
+        }
+        if (atelierAccessHeading) atelierAccessHeading.textContent = 'Request Atelier Membership';
+        if (authDividerLabel) authDividerLabel.textContent = 'Mint Collector Credentials';
+        if (vaultAuthSubmitLabel) vaultAuthSubmitLabel.textContent = 'Mint Atelier Membership';
+        if (membershipPromptLabel) membershipPromptLabel.textContent = 'Existing collector?';
+        requestMembershipBtn.textContent = 'Return to Vault Sign In';
+        triggerToast('Atelier Membership Application Active');
+      } else {
+        if (registerNameGroup) {
+          registerNameGroup.classList.add('hidden');
+          registerNameGroup.classList.remove('flex');
+        }
+        if (atelierAccessHeading) atelierAccessHeading.textContent = 'AURA Atelier Access';
+        if (authDividerLabel) authDividerLabel.textContent = 'Or Secure Email Sign In';
+        if (vaultAuthSubmitLabel) vaultAuthSubmitLabel.textContent = 'Access Acoustic Vault';
+        if (membershipPromptLabel) membershipPromptLabel.textContent = 'New collector?';
+        requestMembershipBtn.textContent = 'Request Atelier Membership';
+      }
+    });
+  }
+
+  // =========================================================================
+  // 13. INITIALIZE APP
   // =========================================================================
   renderCuratedCollection();
   updateCustomizerValuation();
