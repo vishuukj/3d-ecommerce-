@@ -139,11 +139,23 @@
     extraCartItems: JSON.parse(localStorage.getItem('aura_extra_items') || '[]'),
     selectedAccessories: JSON.parse(localStorage.getItem('aura_accessories') || '[]'),
     activeStudioProduct: {
+      id: 'aura-one',
       title: 'AURA ONE Flagship',
+      category: 'over-ear',
       price: 890,
       mass: 310,
       image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBb2VHwlWxEcErh8lYrtIJqPGXAL1YXf1NLVSrULy4PUQjSVAwoLaRnfu6ocEuR0Jk-BN7j9cYbLJfW9VzSc2krChUfF9fGQyE8YPtByZbCIRCdYKipbHLao098Uxev_h4dV9FxsXpHmiZdPWN6F_S2OPubIK8aAkYEJVznnHiTIN_oKbX66yqM7zidku3vecgOdYFaZ7BpDHw4Lv9A7cTL4NcOVPd1IKlcg7DrZ6M'
-    }
+    },
+    userAvatar: JSON.parse(localStorage.getItem('aura_user_avatar') || JSON.stringify({
+      created: false,
+      name: 'Collector Twin',
+      photoDataUrl: '',
+      skinColor: '#d9a583',
+      hairColor: '#1b1815',
+      hairStyle: 'sleek',
+      outfitColor: '#14161c',
+      headScale: 1.0
+    }))
   };
 
   function persistState() {
@@ -152,6 +164,9 @@
     localStorage.setItem('aura_vault_build', JSON.stringify(state.vaultBuild));
     localStorage.setItem('aura_extra_items', JSON.stringify(state.extraCartItems));
     localStorage.setItem('aura_accessories', JSON.stringify(state.selectedAccessories));
+    try {
+      localStorage.setItem('aura_user_avatar', JSON.stringify(state.userAvatar));
+    } catch (_) {}
   }
 
   // =========================================================================
@@ -296,11 +311,17 @@
               <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 line-clamp-1">${item.subtitle}</p>
               <span class="font-spec-code-sm text-spec-code-sm text-secondary block mt-1">${item.specLine}</span>
             </div>
-            <div class="flex items-center justify-between mt-2 pt-2">
+            <div class="flex items-center justify-between mt-2 pt-2 gap-1.5">
               <span class="font-headline-sm text-headline-sm text-on-surface font-semibold">$${item.price.toLocaleString()}</span>
-              <button class="inspect-product-btn w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:bg-primary-container hover:text-on-primary-container transition-colors" data-inspect-id="${item.id}" type="button" title="Inspect &amp; Acquire">
-                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-              </button>
+              <div class="flex items-center gap-1.5">
+                <button class="try-avatar-card-btn flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary/10 hover:bg-secondary/20 text-secondary border border-secondary/30 font-spec-code-sm text-[10px] uppercase transition-colors" data-avatar-product-id="${item.id}" type="button" title="Try on My 3D Character">
+                  <span class="material-symbols-outlined text-[13px]">face_retouching_natural</span>
+                  <span>Try 3D</span>
+                </button>
+                <button class="inspect-product-btn w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:bg-primary-container hover:text-on-primary-container transition-colors" data-inspect-id="${item.id}" type="button" title="Inspect &amp; Acquire">
+                  <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -329,6 +350,25 @@
         }
         persistState();
         renderCuratedCollection();
+      });
+    });
+
+    // Bind "Try 3D" Avatar Try-On buttons on product cards
+    grid.querySelectorAll('.try-avatar-card-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-avatar-product-id');
+        const prod = PRODUCTS.find(p => p.id === id);
+        if (prod) {
+          tryProductOn3dCharacter({
+            id: prod.id,
+            title: prod.title,
+            category: prod.category,
+            price: prod.price,
+            mass: parseInt(prod.mass, 10) || 310,
+            image: prod.image
+          });
+        }
       });
     });
 
@@ -384,26 +424,67 @@
   const heroAcquireNowBtn = document.getElementById('heroAcquireNowBtn');
   const heroAcousticProfileBtn = document.getElementById('heroAcousticProfileBtn');
 
-  function loadProductInto3dStudio(productInfo) {
-    state.activeStudioProduct = productInfo;
+  function loadProductInto3dStudio(productInfo, enableAvatarMode = false) {
+    state.activeStudioProduct = {
+      id: productInfo.id || 'aura-one',
+      title: productInfo.title || 'AURA ONE Flagship',
+      category: productInfo.category || 'over-ear',
+      price: productInfo.price || 890,
+      mass: productInfo.mass || 310,
+      image: productInfo.image || state.activeStudioProduct.image
+    };
     const titleEl = document.getElementById('studioProductTitle');
     const priceEl = document.getElementById('studioProductPrice');
     const massEl = document.getElementById('studioSpecMass');
     const imgEl = document.getElementById('headphoneImg');
 
-    if (titleEl) titleEl.textContent = productInfo.title;
-    if (priceEl) priceEl.textContent = `$${productInfo.price.toLocaleString()}`;
-    if (massEl && productInfo.mass) massEl.textContent = parseInt(productInfo.mass, 10) || 310;
-    if (imgEl && productInfo.image) imgEl.src = productInfo.image;
+    if (titleEl) titleEl.textContent = state.activeStudioProduct.title;
+    if (priceEl) priceEl.textContent = `$${state.activeStudioProduct.price.toLocaleString()}`;
+    if (massEl && state.activeStudioProduct.mass) massEl.textContent = parseInt(state.activeStudioProduct.mass, 10) || 310;
+    if (imgEl && state.activeStudioProduct.image) imgEl.src = state.activeStudioProduct.image;
+
+    if (threeSceneCtrl) {
+      threeSceneCtrl.setProductCategory(state.activeStudioProduct.category);
+    }
 
     switchTab('3d-studio');
-    triggerToast(`3D Studio: ${productInfo.title}`);
+    if (enableAvatarMode) {
+      setAvatarTryOnMode(true);
+    }
+    triggerToast(`3D Studio: ${state.activeStudioProduct.title}`);
+  }
+
+  let pendingAvatarProduct = null;
+  function tryProductOn3dCharacter(productInfo) {
+    pendingAvatarProduct = productInfo;
+    if (!state.userAvatar.created) {
+      openAvatarCreatorModal(productInfo);
+    } else {
+      loadProductInto3dStudio(productInfo, true);
+      triggerToast(`Wearing ${productInfo.title} on Your 3D Character`);
+    }
   }
 
   if (inspectBadge) {
     inspectBadge.addEventListener('click', () => {
       loadProductInto3dStudio({
+        id: 'aura-one',
         title: 'AURA ONE Flagship',
+        category: 'over-ear',
+        price: 890,
+        mass: 310,
+        image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBb2VHwlWxEcErh8lYrtIJqPGXAL1YXf1NLVSrULy4PUQjSVAwoLaRnfu6ocEuR0Jk-BN7j9cYbLJfW9VzSc2krChUfF9fGQyE8YPtByZbCIRCdYKipbHLao098Uxev_h4dV9FxsXpHmiZdPWN6F_S2OPubIK8aAkYEJVznnHiTIN_oKbX66yqM7zidku3vecgOdYFaZ7BpDHw4Lv9A7cTL4NcOVPd1IKlcg7DrZ6M'
+      });
+    });
+  }
+
+  const heroTryAvatarBtn = document.getElementById('heroTryAvatarBtn');
+  if (heroTryAvatarBtn) {
+    heroTryAvatarBtn.addEventListener('click', () => {
+      tryProductOn3dCharacter({
+        id: 'aura-one',
+        title: 'AURA ONE Flagship',
+        category: 'over-ear',
         price: 890,
         mass: 310,
         image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBb2VHwlWxEcErh8lYrtIJqPGXAL1YXf1NLVSrULy4PUQjSVAwoLaRnfu6ocEuR0Jk-BN7j9cYbLJfW9VzSc2krChUfF9fGQyE8YPtByZbCIRCdYKipbHLao098Uxev_h4dV9FxsXpHmiZdPWN6F_S2OPubIK8aAkYEJVznnHiTIN_oKbX66yqM7zidku3vecgOdYFaZ7BpDHw4Lv9A7cTL4NcOVPd1IKlcg7DrZ6M'
@@ -543,11 +624,30 @@
       if (!currentModalProduct) return;
       closeProductDetailModal();
       loadProductInto3dStudio({
+        id: currentModalProduct.id,
         title: currentModalProduct.title,
+        category: currentModalProduct.category,
         price: currentModalProduct.price,
         mass: parseInt(currentModalProduct.mass, 10) || 310,
         image: currentModalProduct.image
       });
+    });
+  }
+
+  const modalTryAvatarBtn = document.getElementById('modalTryAvatarBtn');
+  if (modalTryAvatarBtn) {
+    modalTryAvatarBtn.addEventListener('click', () => {
+      if (!currentModalProduct) return;
+      const targetProd = {
+        id: currentModalProduct.id,
+        title: currentModalProduct.title,
+        category: currentModalProduct.category,
+        price: currentModalProduct.price,
+        mass: parseInt(currentModalProduct.mass, 10) || 310,
+        image: currentModalProduct.image
+      };
+      closeProductDetailModal();
+      tryProductOn3dCharacter(targetProd);
     });
   }
 
@@ -703,7 +803,163 @@
     });
   }
 
-  // Real-Time Three.js WebGL 3D Sculptural Headphone Model
+  // =========================================================================
+  // 6B. THREE.JS 3D CHARACTER BUILDER & VIRTUAL TRY-ON HARDWARE ENGINE
+  // =========================================================================
+  let isAvatarTryOn = false;
+
+  function buildSculptedAvatarGroup(avatarCfg) {
+    const group = new THREE.Group();
+    const skinMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(avatarCfg.skinColor || '#d9a583'),
+      metalness: 0.06,
+      roughness: 0.58
+    });
+    const hairMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(avatarCfg.hairColor || '#1b1815'),
+      metalness: 0.15,
+      roughness: 0.65
+    });
+    const outfitMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(avatarCfg.outfitColor || '#14161c'),
+      metalness: 0.28,
+      roughness: 0.52
+    });
+    const collarAccentMat = new THREE.MeshStandardMaterial({
+      color: 0xd4af37,
+      metalness: 0.85,
+      roughness: 0.25
+    });
+
+    const headScale = Number(avatarCfg.headScale) || 1.0;
+
+    // 1. Sculpted Head Core
+    const headPivot = new THREE.Group();
+    headPivot.scale.set(headScale, headScale, headScale);
+    group.add(headPivot);
+
+    const headGeo = new THREE.SphereGeometry(0.95, 48, 48);
+    headGeo.scale(0.84, 1.04, 0.90);
+    const headMesh = new THREE.Mesh(headGeo, skinMat);
+    headMesh.position.set(0, -0.05, 0);
+    headPivot.add(headMesh);
+
+    // 2. Projected User Photo Face Shell (curved front face cap with soft-feathered alpha!)
+    if (avatarCfg.photoDataUrl) {
+      const faceTex = new THREE.TextureLoader().load(avatarCfg.photoDataUrl);
+      faceTex.encoding = THREE.sRGBEncoding;
+      const faceGeo = new THREE.SphereGeometry(
+        0.968,
+        40,
+        40,
+        Math.PI * 0.24,
+        Math.PI * 0.52,
+        Math.PI * 0.20,
+        Math.PI * 0.60
+      );
+      faceGeo.scale(0.84, 1.04, 0.90);
+      const faceMat = new THREE.MeshStandardMaterial({
+        map: faceTex,
+        transparent: true,
+        roughness: 0.45,
+        metalness: 0.05
+      });
+      const faceMesh = new THREE.Mesh(faceGeo, faceMat);
+      faceMesh.position.set(0, -0.05, 0.01);
+      headPivot.add(faceMesh);
+    } else {
+      // Sculpted minimalist studio features when using preset without photo
+      const eyeMat = new THREE.MeshStandardMaterial({ color: 0x16181f, roughness: 0.2, metalness: 0.3 });
+      const eyeGeo = new THREE.SphereGeometry(0.068, 16, 16);
+      const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+      leftEye.position.set(-0.27, 0.06, 0.80);
+      const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+      rightEye.position.set(0.27, 0.06, 0.80);
+      headPivot.add(leftEye, rightEye);
+
+      const browGeo = new THREE.BoxGeometry(0.22, 0.032, 0.05);
+      const leftBrow = new THREE.Mesh(browGeo, hairMat);
+      leftBrow.position.set(-0.27, 0.20, 0.81);
+      leftBrow.rotation.z = 0.06;
+      const rightBrow = new THREE.Mesh(browGeo, hairMat);
+      rightBrow.position.set(0.27, 0.20, 0.81);
+      rightBrow.rotation.z = -0.06;
+      headPivot.add(leftBrow, rightBrow);
+
+      const noseGeo = new THREE.ConeGeometry(0.09, 0.28, 16);
+      const noseMesh = new THREE.Mesh(noseGeo, skinMat);
+      noseMesh.position.set(0, -0.10, 0.88);
+      noseMesh.rotation.x = Math.PI * 0.14;
+      headPivot.add(noseMesh);
+
+      const lipMat = new THREE.MeshStandardMaterial({ color: 0x8f564c, roughness: 0.5 });
+      const lipGeo = new THREE.TorusGeometry(0.14, 0.028, 12, 24, Math.PI);
+      const lipMesh = new THREE.Mesh(lipGeo, lipMat);
+      lipMesh.position.set(0, -0.34, 0.80);
+      lipMesh.rotation.x = Math.PI;
+      headPivot.add(lipMesh);
+    }
+
+    // 3. Sculpted Left & Right Ears
+    const earGeo = new THREE.SphereGeometry(0.18, 20, 20);
+    earGeo.scale(0.45, 1.15, 0.72);
+    const leftEar = new THREE.Mesh(earGeo, skinMat);
+    leftEar.position.set(-0.82, -0.14, -0.03);
+    const rightEar = new THREE.Mesh(earGeo, skinMat);
+    rightEar.position.set(0.82, -0.14, -0.03);
+    headPivot.add(leftEar, rightEar);
+
+    // 4. Configurable 3D Hair Topology
+    const hairStyle = avatarCfg.hairStyle || 'sleek';
+    const hairCapGeo = new THREE.SphereGeometry(0.99, 36, 36, 0, Math.PI * 2, 0, Math.PI * 0.56);
+    hairCapGeo.scale(0.86, 1.05, 0.93);
+    const hairCap = new THREE.Mesh(hairCapGeo, hairMat);
+    hairCap.position.set(0, -0.01, -0.03);
+    hairCap.rotation.x = -0.22;
+    headPivot.add(hairCap);
+
+    if (hairStyle === 'volume') {
+      for (let i = 0; i < 9; i++) {
+        const puff = new THREE.Mesh(new THREE.SphereGeometry(0.24, 16, 16), hairMat);
+        const angle = (i / 9) * Math.PI * 2;
+        puff.position.set(Math.cos(angle) * 0.45, 0.76 + (i % 2) * 0.12, Math.sin(angle) * 0.42 - 0.08);
+        headPivot.add(puff);
+      }
+    } else if (hairStyle === 'long') {
+      const backCurtain = new THREE.Mesh(new THREE.CylinderGeometry(0.76, 0.88, 1.45, 32, 1, false, Math.PI * 0.7, Math.PI * 1.6), hairMat);
+      backCurtain.position.set(0, -0.58, -0.16);
+      headPivot.add(backCurtain);
+    } else if (hairStyle === 'sleek') {
+      const crest = new THREE.Mesh(new THREE.SphereGeometry(0.55, 24, 24), hairMat);
+      crest.scale.set(1.2, 0.55, 1.35);
+      crest.position.set(0, 0.75, 0.06);
+      headPivot.add(crest);
+    }
+
+    // 5. Neck & Atelier Shoulders Bust
+    const neckMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.37, 0.65, 28), skinMat);
+    neckMesh.position.set(0, -1.16, -0.05);
+    group.add(neckMesh);
+
+    const collarMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.28, 32), outfitMat);
+    collarMesh.position.set(0, -1.42, -0.05);
+    group.add(collarMesh);
+
+    const collarRing = new THREE.Mesh(new THREE.TorusGeometry(0.43, 0.022, 12, 36), collarAccentMat);
+    collarRing.rotation.x = Math.PI / 2;
+    collarRing.position.set(0, -1.30, -0.05);
+    group.add(collarRing);
+
+    const torsoGeo = new THREE.SphereGeometry(1.38, 36, 28, 0, Math.PI * 2, 0, Math.PI * 0.55);
+    torsoGeo.scale(1.18, 0.72, 0.65);
+    const torsoMesh = new THREE.Mesh(torsoGeo, outfitMat);
+    torsoMesh.position.set(0, -2.18, -0.06);
+    group.add(torsoMesh);
+
+    return group;
+  }
+
+  // Real-Time Three.js WebGL 3D Sculptural Studio + User Character Try-On Engine
   let threeSceneCtrl = null;
   function initThreeStudioMesh() {
     const canvas = document.getElementById('threeStudioCanvas');
@@ -714,21 +970,25 @@
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0.2, 6.2);
+    camera.position.set(0, -0.15, 6.4);
 
     // Studio Lighting matching DESIGN.md (Champagne Bronze + Spatial Cyan + Titanium Rim)
-    const ambient = new THREE.AmbientLight(0xffffff, 0.55);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.72);
     scene.add(ambient);
 
-    const cyanLight = new THREE.PointLight(0x00eefc, 2.4, 15);
-    cyanLight.position.set(-3.5, 2.5, 3);
+    const keyLight = new THREE.DirectionalLight(0xfff5e4, 0.95);
+    keyLight.position.set(1.5, 2.5, 5);
+    scene.add(keyLight);
+
+    const cyanLight = new THREE.PointLight(0x00eefc, 2.1, 16);
+    cyanLight.position.set(-3.5, 2.2, 3);
     scene.add(cyanLight);
 
-    const goldLight = new THREE.PointLight(0xd4af37, 2.6, 15);
-    goldLight.position.set(3.5, -1.5, 3.5);
+    const goldLight = new THREE.PointLight(0xd4af37, 2.3, 16);
+    goldLight.position.set(3.5, -1.2, 3.5);
     scene.add(goldLight);
 
-    const rimLight = new THREE.DirectionalLight(0xe2e8f0, 1.5);
+    const rimLight = new THREE.DirectionalLight(0xe2e8f0, 1.3);
     rimLight.position.set(0, 4, -3);
     scene.add(rimLight);
 
@@ -759,71 +1019,160 @@
     const rootGroup = new THREE.Group();
     scene.add(rootGroup);
 
-    // Headband Arch
-    const archGeo = new THREE.TorusGeometry(1.35, 0.11, 20, 64, Math.PI);
+    // ---- A. USER 3D CHARACTER CONTAINER ----
+    const avatarHolder = new THREE.Group();
+    avatarHolder.visible = false;
+    rootGroup.add(avatarHolder);
+
+    function rebuildAvatarInStudio() {
+      while (avatarHolder.children.length > 0) {
+        avatarHolder.remove(avatarHolder.children[0]);
+      }
+      const charMesh = buildSculptedAvatarGroup(state.userAvatar);
+      avatarHolder.add(charMesh);
+      updateHardwareFitForAvatar();
+    }
+
+    // ---- B. OVER-EAR HEADPHONE ASSEMBLY ----
+    const headphoneGroup = new THREE.Group();
+    rootGroup.add(headphoneGroup);
+
+    const archGeo = new THREE.TorusGeometry(1.12, 0.10, 20, 64, Math.PI);
     const archMesh = new THREE.Mesh(archGeo, leatherMat);
-    archMesh.position.y = 0.25;
-    rootGroup.add(archMesh);
+    archMesh.position.y = 0.08;
+    headphoneGroup.add(archMesh);
 
-    const outerBandGeo = new THREE.TorusGeometry(1.42, 0.045, 16, 64, Math.PI);
+    const outerBandGeo = new THREE.TorusGeometry(1.19, 0.042, 16, 64, Math.PI);
     const outerBandMesh = new THREE.Mesh(outerBandGeo, titaniumMat);
-    outerBandMesh.position.y = 0.25;
-    rootGroup.add(outerBandMesh);
+    outerBandMesh.position.y = 0.08;
+    headphoneGroup.add(outerBandMesh);
 
-    // Left & Right Ear Cup Assemblies (with explodable sub-layers)
     const leftParts = {};
     const rightParts = {};
 
     function buildEarCup(side) {
       const dir = side === 'left' ? -1 : 1;
       const cupGroup = new THREE.Group();
-      cupGroup.position.set(dir * 1.32, -0.35, 0);
-      cupGroup.rotation.z = dir * -0.12;
+      cupGroup.position.set(dir * 1.08, -0.22, -0.02);
+      cupGroup.rotation.z = dir * -0.08;
 
-      // 1. Outer CNC Titanium Shell
-      const shellGeo = new THREE.CylinderGeometry(0.66, 0.72, 0.32, 48);
+      const shellGeo = new THREE.CylinderGeometry(0.50, 0.55, 0.26, 48);
       shellGeo.rotateZ(Math.PI / 2);
       const shellMesh = new THREE.Mesh(shellGeo, titaniumMat);
       cupGroup.add(shellMesh);
 
-      // 2. Gold Helmholtz Acoustic Ring
-      const ringGeo = new THREE.TorusGeometry(0.56, 0.045, 20, 48);
+      const ringGeo = new THREE.TorusGeometry(0.42, 0.038, 20, 48);
       ringGeo.rotateY(Math.PI / 2);
       const ringMesh = new THREE.Mesh(ringGeo, goldMat);
-      ringMesh.position.x = dir * 0.17;
+      ringMesh.position.x = dir * 0.14;
       cupGroup.add(ringMesh);
 
-      // 3. 40mm Beryllium Transducer Core
-      const driverGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.12, 36);
+      const driverGeo = new THREE.CylinderGeometry(0.32, 0.32, 0.10, 36);
       driverGeo.rotateZ(Math.PI / 2);
       const driverMesh = new THREE.Mesh(driverGeo, cyanGlowMat);
-      driverMesh.position.x = dir * -0.05;
+      driverMesh.position.x = dir * -0.04;
       cupGroup.add(driverMesh);
 
-      // 4. Lambskin Contour Ear Cushion
-      const padGeo = new THREE.TorusGeometry(0.58, 0.16, 24, 48);
+      const padGeo = new THREE.TorusGeometry(0.44, 0.13, 24, 48);
       padGeo.rotateY(Math.PI / 2);
       const padMesh = new THREE.Mesh(padGeo, leatherMat);
-      padMesh.position.x = dir * -0.22;
+      padMesh.position.x = dir * -0.17;
       cupGroup.add(padMesh);
 
-      // Yoke Pivot Rod
-      const rodGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.65, 16);
+      const rodGeo = new THREE.CylinderGeometry(0.032, 0.032, 0.45, 16);
       const rodMesh = new THREE.Mesh(rodGeo, goldMat);
-      rodMesh.position.set(dir * 0.06, 0.45, 0);
+      rodMesh.position.set(dir * 0.05, 0.36, 0);
       cupGroup.add(rodMesh);
 
-      rootGroup.add(cupGroup);
+      headphoneGroup.add(cupGroup);
       return { cupGroup, shellMesh, ringMesh, driverMesh, padMesh, dir };
     }
 
     Object.assign(leftParts, buildEarCup('left'));
     Object.assign(rightParts, buildEarCup('right'));
 
+    // ---- C. IN-EAR MONITOR (IEM) ASSEMBLY FOR PULSE IEM X ----
+    const iemGroup = new THREE.Group();
+    iemGroup.visible = false;
+    rootGroup.add(iemGroup);
+
+    [-1, 1].forEach(dir => {
+      const bud = new THREE.Mesh(new THREE.OctahedronGeometry(0.18, 2), titaniumMat);
+      bud.scale.set(0.75, 1.15, 0.9);
+      bud.position.set(dir * 0.86, -0.16, 0.03);
+      iemGroup.add(bud);
+
+      const facePlate = new THREE.Mesh(new THREE.RingGeometry(0.06, 0.13, 24), cyanGlowMat);
+      facePlate.rotation.y = dir * (Math.PI / 2);
+      facePlate.position.set(dir * 0.99, -0.16, 0.03);
+      iemGroup.add(facePlate);
+
+      const cableCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(dir * 0.88, -0.18, 0.04),
+        new THREE.Vector3(dir * 0.85, -0.65, 0.20),
+        new THREE.Vector3(dir * 0.52, -1.35, 0.44),
+        new THREE.Vector3(dir * 0.18, -1.85, 0.55)
+      ]);
+      const cableGeo = new THREE.TubeGeometry(cableCurve, 24, 0.022, 10, false);
+      const cableMesh = new THREE.Mesh(cableGeo, new THREE.MeshStandardMaterial({ color: 0xdde3eb, metalness: 0.9, roughness: 0.2 }));
+      iemGroup.add(cableMesh);
+    });
+
+    // ---- D. DESKTOP MONITOR / DAC TOWERS FOR RESONANCE TOWER & DAC-01 ----
+    const desktopGroup = new THREE.Group();
+    desktopGroup.visible = false;
+    rootGroup.add(desktopGroup);
+
+    [-1, 1].forEach(dir => {
+      const tower = new THREE.Mesh(new THREE.BoxGeometry(0.68, 1.45, 0.62), titaniumMat);
+      tower.position.set(dir * 1.95, -0.95, 0.25);
+      tower.rotation.y = dir * -0.28;
+      desktopGroup.add(tower);
+
+      const woofer = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.04, 16, 32), goldMat);
+      woofer.position.set(dir * 1.85, -0.68, 0.56);
+      woofer.rotation.y = dir * -0.28;
+      desktopGroup.add(woofer);
+
+      const waveRing = new THREE.Mesh(new THREE.RingGeometry(0.24, 0.27, 32), cyanGlowMat);
+      waveRing.position.set(dir * 1.75, -0.68, 0.66);
+      waveRing.rotation.y = dir * -0.28;
+      desktopGroup.add(waveRing);
+    });
+
+    let currentProductCategory = 'over-ear';
     let targetExplode = 0;
     let currentExplode = 0;
-    let targetRotY = 0.4;
-    let targetRotX = 0.1;
+    let targetRotY = 0.22;
+    let targetRotX = 0.05;
+    let animClock = 0;
+
+    function updateHardwareFitForAvatar() {
+      const hs = Number(state.userAvatar.headScale) || 1.0;
+      if (isAvatarTryOn) {
+        headphoneGroup.scale.set(hs * 0.98, hs * 0.98, hs * 0.98);
+        headphoneGroup.position.set(0, 0.04, 0);
+        iemGroup.scale.set(hs, hs, hs);
+      } else {
+        headphoneGroup.scale.set(1.18, 1.18, 1.18);
+        headphoneGroup.position.set(0, 0.1, 0);
+      }
+    }
+
+    function applyFinishMaterialColor(finishName) {
+      if (finishName === 'Champagne Bronze') titaniumMat.color.setHex(0xb89134);
+      else if (finishName === 'Forged Carbon') titaniumMat.color.setHex(0x161a22);
+      else if (finishName === 'Ceramic Pearl') titaniumMat.color.setHex(0xdde3eb);
+      else titaniumMat.color.setHex(0x1e2026);
+    }
+
+    function setProductCategory(cat) {
+      currentProductCategory = cat || 'over-ear';
+      headphoneGroup.visible = currentProductCategory === 'over-ear' || currentProductCategory === 'limited';
+      iemGroup.visible = currentProductCategory === 'iem';
+      desktopGroup.visible = currentProductCategory === 'dac';
+      updateHardwareFitForAvatar();
+    }
 
     function resize() {
       const parent = canvas.parentElement;
@@ -838,35 +1187,56 @@
     function updateExplodePositions(f) {
       [leftParts, rightParts].forEach(p => {
         const d = p.dir;
-        p.shellMesh.position.x = d * (0.45 * f);
-        p.ringMesh.position.x = d * (0.17 + 0.72 * f);
-        p.driverMesh.position.x = d * (-0.05 - 0.18 * f);
-        p.padMesh.position.x = d * (-0.22 - 0.48 * f);
+        p.shellMesh.position.x = d * (0.42 * f);
+        p.ringMesh.position.x = d * (0.14 + 0.66 * f);
+        p.driverMesh.position.x = d * (-0.04 - 0.16 * f);
+        p.padMesh.position.x = d * (-0.17 - 0.42 * f);
       });
     }
 
     function animate() {
       requestAnimationFrame(animate);
       if (!isWebglMode) return;
+      animClock += 0.025;
+
       currentExplode += (targetExplode - currentExplode) * 0.1;
       updateExplodePositions(currentExplode);
 
+      // Subtle breathing & groove animation when wearing on 3D Character
+      if (isAvatarTryOn) {
+        const groove = isAudioPlaying ? Math.sin(animClock * 3.5) * 0.06 : Math.sin(animClock * 1.1) * 0.025;
+        rootGroup.position.y = -0.1 + Math.sin(animClock * 1.4) * 0.03;
+        rootGroup.rotation.x += ((targetRotX + groove) - rootGroup.rotation.x) * 0.12;
+      } else {
+        rootGroup.position.y = 0;
+        rootGroup.rotation.x += (targetRotX - rootGroup.rotation.x) * 0.12;
+      }
+
       rootGroup.rotation.y += (targetRotY - rootGroup.rotation.y) * 0.12;
-      rootGroup.rotation.x += (targetRotX - rootGroup.rotation.x) * 0.12;
       renderer.render(scene, camera);
     }
 
+    rebuildAvatarInStudio();
+    setProductCategory('over-ear');
     resize();
     window.addEventListener('resize', resize);
     animate();
 
     return {
       resize,
+      rebuildAvatar: rebuildAvatarInStudio,
+      setProductCategory,
+      applyFinishMaterialColor,
+      setAvatarVisible(visible) {
+        avatarHolder.visible = Boolean(visible);
+        camera.position.z = visible ? 6.8 : 6.0;
+        updateHardwareFitForAvatar();
+      },
       setExploded(val) {
         targetExplode = val ? 1 : 0;
       },
       setRotation(azDeg, pitchDeg) {
-        targetRotY = (azDeg * Math.PI) / 180 + 0.4;
+        targetRotY = (azDeg * Math.PI) / 180 + (isAvatarTryOn ? 0.15 : 0.4);
         targetRotX = (pitchDeg * Math.PI) / 180;
       }
     };
@@ -874,10 +1244,44 @@
 
   threeSceneCtrl = initThreeStudioMesh();
 
-  // Toggle between Studio Photo Render and Real-Time WebGL 3D Mesh
+  // Toggle between Studio Photo Render, WebGL 3D Mesh, and User's 3D Character Try-On
   const toggleWebglModeBtn = document.getElementById('toggleWebglModeBtn');
   const webglModeBtnLabel = document.getElementById('webglModeBtnLabel');
+  const toggleAvatarTryOnBtn = document.getElementById('toggleAvatarTryOnBtn');
+  const avatarTryOnBtnLabel = document.getElementById('avatarTryOnBtnLabel');
+  const openAvatarEditFromStudioBtn = document.getElementById('openAvatarEditFromStudioBtn');
   const threeStudioCanvas = document.getElementById('threeStudioCanvas');
+
+  function setAvatarTryOnMode(enable) {
+    isAvatarTryOn = Boolean(enable);
+    if (isAvatarTryOn) {
+      isWebglMode = true;
+      if (threeStudioCanvas) threeStudioCanvas.classList.remove('hidden');
+      if (headphoneImg) headphoneImg.classList.add('opacity-0');
+      if (webglModeBtnLabel) webglModeBtnLabel.textContent = 'Studio Photo';
+      if (avatarTryOnBtnLabel) avatarTryOnBtnLabel.textContent = 'Avatar Active';
+      if (toggleAvatarTryOnBtn) {
+        toggleAvatarTryOnBtn.classList.add('bg-primary', 'text-on-primary');
+        toggleAvatarTryOnBtn.classList.remove('bg-primary/15', 'text-primary');
+      }
+      if (threeSceneCtrl) {
+        threeSceneCtrl.rebuildAvatar();
+        threeSceneCtrl.setProductCategory(state.activeStudioProduct.category || 'over-ear');
+        threeSceneCtrl.applyFinishMaterialColor(state.customizer.finishName);
+        threeSceneCtrl.setAvatarVisible(true);
+        threeSceneCtrl.resize();
+      }
+    } else {
+      if (avatarTryOnBtnLabel) avatarTryOnBtnLabel.textContent = 'My 3D Character';
+      if (toggleAvatarTryOnBtn) {
+        toggleAvatarTryOnBtn.classList.remove('bg-primary', 'text-on-primary');
+        toggleAvatarTryOnBtn.classList.add('bg-primary/15', 'text-primary');
+      }
+      if (threeSceneCtrl) {
+        threeSceneCtrl.setAvatarVisible(false);
+      }
+    }
+  }
 
   if (toggleWebglModeBtn && threeStudioCanvas && headphoneImg) {
     toggleWebglModeBtn.addEventListener('click', () => {
@@ -887,16 +1291,425 @@
         headphoneImg.classList.add('opacity-0');
         if (webglModeBtnLabel) webglModeBtnLabel.textContent = 'Studio Photo';
         if (threeSceneCtrl) {
+          threeSceneCtrl.setProductCategory(state.activeStudioProduct.category || 'over-ear');
           threeSceneCtrl.resize();
           threeSceneCtrl.setExploded(isExploded);
         }
         triggerToast('Real-Time WebGL 3D Geometry Active');
       } else {
+        setAvatarTryOnMode(false);
         threeStudioCanvas.classList.add('hidden');
         headphoneImg.classList.remove('opacity-0');
         if (webglModeBtnLabel) webglModeBtnLabel.textContent = 'WebGL Mesh';
         triggerToast('Anechoic Studio Render Active');
       }
+    });
+  }
+
+  if (toggleAvatarTryOnBtn) {
+    toggleAvatarTryOnBtn.addEventListener('click', () => {
+      if (!state.userAvatar.created) {
+        openAvatarCreatorModal(state.activeStudioProduct);
+      } else {
+        setAvatarTryOnMode(!isAvatarTryOn);
+        triggerToast(isAvatarTryOn ? `Wearing ${state.activeStudioProduct.title} on 3D Character` : '3D Character Hidden');
+      }
+    });
+  }
+
+  if (openAvatarEditFromStudioBtn) {
+    openAvatarEditFromStudioBtn.addEventListener('click', () => {
+      openAvatarCreatorModal(state.activeStudioProduct);
+    });
+  }
+
+  // =========================================================================
+  // 6C. PHOTO-TO-3D CHARACTER CREATOR MODAL (UPLOAD, WEBCAM, PREVIEW)
+  // =========================================================================
+  const avatarCreatorModal = document.getElementById('avatarCreatorModal');
+  const openAvatarModalBtn = document.getElementById('openAvatarModalBtn');
+  const closeAvatarModalBtn = document.getElementById('closeAvatarModalBtn');
+  const avatarPhotoInput = document.getElementById('avatarPhotoInput');
+  const avatarUploadedThumb = document.getElementById('avatarUploadedThumb');
+  const avatarUploadIcon = document.getElementById('avatarUploadIcon');
+  const avatarHairStyleSelect = document.getElementById('avatarHairStyleSelect');
+  const avatarOutfitSelect = document.getElementById('avatarOutfitSelect');
+  const avatarSkinColorInput = document.getElementById('avatarSkinColorInput');
+  const avatarHeadScaleInput = document.getElementById('avatarHeadScaleInput');
+  const saveAvatarApplyBtn = document.getElementById('saveAvatarApplyBtn');
+  const avatarSynthesisOverlay = document.getElementById('avatarSynthesisOverlay');
+  const avatarSynthProgress = document.getElementById('avatarSynthProgress');
+  const avatarSynthStage = document.getElementById('avatarSynthStage');
+  const avatarTargetProductLabel = document.getElementById('avatarTargetProductLabel');
+
+  // Dedicated Live Preview Three.js Scene inside #avatarCreatorModal
+  let previewSceneCtrl = null;
+  function initAvatarPreviewScene() {
+    const pCanvas = document.getElementById('avatarPreviewCanvas');
+    if (!pCanvas || typeof THREE === 'undefined') return null;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: pCanvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 50);
+    camera.position.set(0, -0.25, 5.4);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+    const frontLight = new THREE.DirectionalLight(0xfff5e4, 0.9);
+    frontLight.position.set(1.5, 2.2, 4);
+    scene.add(frontLight);
+    const cyanPt = new THREE.PointLight(0x00eefc, 1.8, 12);
+    cyanPt.position.set(-3, 2, 2.5);
+    scene.add(cyanPt);
+    const goldPt = new THREE.PointLight(0xd4af37, 2.0, 12);
+    goldPt.position.set(3, -1, 2.5);
+    scene.add(goldPt);
+
+    const previewHolder = new THREE.Group();
+    scene.add(previewHolder);
+
+    let isPreviewOpen = false;
+    let spinAngle = 0;
+
+    function rebuild() {
+      while (previewHolder.children.length > 0) {
+        previewHolder.remove(previewHolder.children[0]);
+      }
+      previewHolder.add(buildSculptedAvatarGroup(state.userAvatar));
+    }
+
+    function resize() {
+      const parent = pCanvas.parentElement;
+      if (!parent) return;
+      const w = parent.clientWidth || 240;
+      const h = parent.clientHeight || 240;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (!isPreviewOpen) return;
+      spinAngle += 0.012;
+      previewHolder.rotation.y = Math.sin(spinAngle) * 0.45;
+      renderer.render(scene, camera);
+    }
+
+    rebuild();
+    animate();
+
+    return {
+      rebuild,
+      resize,
+      setOpen(val) {
+        isPreviewOpen = val;
+        if (val) {
+          resize();
+          rebuild();
+        }
+      }
+    };
+  }
+
+  previewSceneCtrl = initAvatarPreviewScene();
+
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('');
+  }
+
+  // Analyze uploaded photo: extract skin tone, hair color, and create soft-feathered elliptical face UV texture
+  function processPhotoTo3dTexture(imgSource, onDone) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const size = 320;
+      const off = document.createElement('canvas');
+      off.width = size;
+      off.height = size;
+      const ctx = off.getContext('2d');
+
+      // Center-crop square from portrait
+      const minDim = Math.min(img.width, img.height);
+      const sx = (img.width - minDim) / 2;
+      const sy = (img.height - minDim) / 2;
+      ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, size, size);
+
+      // Sample skin tone from center face region
+      try {
+        const faceData = ctx.getImageData(size * 0.38, size * 0.42, size * 0.24, size * 0.24).data;
+        let r = 0, g = 0, b = 0, cnt = 0;
+        for (let i = 0; i < faceData.length; i += 16) {
+          r += faceData[i];
+          g += faceData[i + 1];
+          b += faceData[i + 2];
+          cnt++;
+        }
+        if (cnt > 0) {
+          state.userAvatar.skinColor = rgbToHex(r / cnt, g / cnt, b / cnt);
+          if (avatarSkinColorInput) avatarSkinColorInput.value = state.userAvatar.skinColor;
+        }
+
+        // Sample hair color from top crown region
+        const hairData = ctx.getImageData(size * 0.35, size * 0.06, size * 0.30, size * 0.12).data;
+        let hr = 0, hg = 0, hb = 0, hcnt = 0;
+        for (let i = 0; i < hairData.length; i += 16) {
+          hr += hairData[i];
+          hg += hairData[i + 1];
+          hb += hairData[i + 2];
+          hcnt++;
+        }
+        if (hcnt > 0) {
+          state.userAvatar.hairColor = rgbToHex(hr / hcnt, hg / hcnt, hb / hcnt);
+        }
+      } catch (_) {}
+
+      // Apply soft elliptical radial alpha mask so photo blends seamlessly into 3D sculpted head
+      ctx.globalCompositeOperation = 'destination-in';
+      const grad = ctx.createRadialGradient(size / 2, size / 2, size * 0.26, size / 2, size / 2, size * 0.49);
+      grad.addColorStop(0, 'rgba(0,0,0,1)');
+      grad.addColorStop(0.75, 'rgba(0,0,0,0.92)');
+      grad.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, size, size);
+
+      const processedDataUrl = off.toDataURL('image/png');
+      state.userAvatar.photoDataUrl = processedDataUrl;
+      state.userAvatar.created = true;
+      persistState();
+      if (onDone) onDone(processedDataUrl);
+    };
+    img.src = imgSource;
+  }
+
+  function runAvatarSynthesisAnimation(callback) {
+    if (!avatarSynthesisOverlay) {
+      if (callback) callback();
+      return;
+    }
+    avatarSynthesisOverlay.classList.remove('hidden');
+    avatarSynthesisOverlay.classList.add('flex');
+    if (avatarSynthProgress) avatarSynthProgress.style.width = '25%';
+    if (avatarSynthStage) avatarSynthStage.textContent = 'Extracting Facial UV & Skin Tone...';
+
+    setTimeout(() => {
+      if (avatarSynthProgress) avatarSynthProgress.style.width = '68%';
+      if (avatarSynthStage) avatarSynthStage.textContent = 'Rigging 3D Head & Acoustic Ear Fit...';
+    }, 260);
+
+    setTimeout(() => {
+      if (avatarSynthProgress) avatarSynthProgress.style.width = '100%';
+      if (avatarSynthStage) avatarSynthStage.textContent = '3D Character Mesh Ready';
+      if (previewSceneCtrl) previewSceneCtrl.rebuild();
+      if (threeSceneCtrl) threeSceneCtrl.rebuildAvatar();
+    }, 520);
+
+    setTimeout(() => {
+      avatarSynthesisOverlay.classList.add('hidden');
+      avatarSynthesisOverlay.classList.remove('flex');
+      if (callback) callback();
+    }, 780);
+  }
+
+  function openAvatarCreatorModal(targetProduct) {
+    if (!avatarCreatorModal) return;
+    const prod = targetProduct || state.activeStudioProduct;
+    pendingAvatarProduct = prod;
+    if (avatarTargetProductLabel && prod) {
+      avatarTargetProductLabel.textContent = prod.title || 'AURA ONE Flagship';
+    }
+    if (avatarHairStyleSelect) avatarHairStyleSelect.value = state.userAvatar.hairStyle || 'sleek';
+    if (avatarOutfitSelect) avatarOutfitSelect.value = state.userAvatar.outfitColor || '#14161c';
+    if (avatarSkinColorInput) avatarSkinColorInput.value = state.userAvatar.skinColor || '#d9a583';
+    if (avatarHeadScaleInput) avatarHeadScaleInput.value = String(state.userAvatar.headScale || 1.0);
+
+    if (state.userAvatar.photoDataUrl && avatarUploadedThumb && avatarUploadIcon) {
+      avatarUploadedThumb.src = state.userAvatar.photoDataUrl;
+      avatarUploadedThumb.classList.remove('hidden');
+      avatarUploadIcon.classList.add('hidden');
+    }
+
+    avatarCreatorModal.classList.remove('hidden');
+    avatarCreatorModal.classList.add('flex');
+    if (previewSceneCtrl) previewSceneCtrl.setOpen(true);
+  }
+
+  let activeWebcamStream = null;
+  function stopWebcamStream() {
+    if (activeWebcamStream) {
+      activeWebcamStream.getTracks().forEach(t => t.stop());
+      activeWebcamStream = null;
+    }
+    const camBox = document.getElementById('avatarCameraBox');
+    const camLbl = document.getElementById('avatarCameraBtnLabel');
+    if (camBox) camBox.classList.add('hidden');
+    if (camLbl) camLbl.textContent = 'Use Live Camera';
+  }
+
+  function closeAvatarCreatorModal() {
+    stopWebcamStream();
+    if (previewSceneCtrl) previewSceneCtrl.setOpen(false);
+    if (!avatarCreatorModal) return;
+    avatarCreatorModal.classList.add('hidden');
+    avatarCreatorModal.classList.remove('flex');
+  }
+
+  if (openAvatarModalBtn) {
+    openAvatarModalBtn.addEventListener('click', () => openAvatarCreatorModal(state.activeStudioProduct));
+  }
+  if (closeAvatarModalBtn) {
+    closeAvatarModalBtn.addEventListener('click', closeAvatarCreatorModal);
+  }
+  if (avatarCreatorModal) {
+    avatarCreatorModal.addEventListener('click', (e) => {
+      if (e.target === avatarCreatorModal) closeAvatarCreatorModal();
+    });
+  }
+
+  // Handle Photo File Upload
+  if (avatarPhotoInput) {
+    avatarPhotoInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const rawUrl = ev.target.result;
+        runAvatarSynthesisAnimation(() => {
+          processPhotoTo3dTexture(rawUrl, (processedUrl) => {
+            if (avatarUploadedThumb && avatarUploadIcon) {
+              avatarUploadedThumb.src = processedUrl;
+              avatarUploadedThumb.classList.remove('hidden');
+              avatarUploadIcon.classList.add('hidden');
+            }
+            if (previewSceneCtrl) previewSceneCtrl.rebuild();
+            if (threeSceneCtrl) threeSceneCtrl.rebuildAvatar();
+            triggerToast('3D Character Synthesized from Your Photo!');
+          });
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Handle Live Webcam Capture
+  const avatarCameraBtn = document.getElementById('avatarCameraBtn');
+  const avatarCameraBox = document.getElementById('avatarCameraBox');
+  const avatarCameraVideo = document.getElementById('avatarCameraVideo');
+  const captureSelfieBtn = document.getElementById('captureSelfieBtn');
+  const avatarCameraBtnLabel = document.getElementById('avatarCameraBtnLabel');
+
+  if (avatarCameraBtn && avatarCameraBox && avatarCameraVideo) {
+    avatarCameraBtn.addEventListener('click', async () => {
+      if (activeWebcamStream) {
+        stopWebcamStream();
+        return;
+      }
+      try {
+        activeWebcamStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+        avatarCameraVideo.srcObject = activeWebcamStream;
+        avatarCameraBox.classList.remove('hidden');
+        if (avatarCameraBtnLabel) avatarCameraBtnLabel.textContent = 'Close Camera';
+      } catch (_) {
+        triggerToast('Camera unavailable — Upload a photo or choose a preset');
+      }
+    });
+  }
+
+  if (captureSelfieBtn && avatarCameraVideo) {
+    captureSelfieBtn.addEventListener('click', () => {
+      const snap = document.createElement('canvas');
+      snap.width = avatarCameraVideo.videoWidth || 320;
+      snap.height = avatarCameraVideo.videoHeight || 320;
+      const sctx = snap.getContext('2d');
+      sctx.translate(snap.width, 0);
+      sctx.scale(-1, 1);
+      sctx.drawImage(avatarCameraVideo, 0, 0, snap.width, snap.height);
+      const dataUrl = snap.toDataURL('image/png');
+      stopWebcamStream();
+
+      runAvatarSynthesisAnimation(() => {
+        processPhotoTo3dTexture(dataUrl, (processedUrl) => {
+          if (avatarUploadedThumb && avatarUploadIcon) {
+            avatarUploadedThumb.src = processedUrl;
+            avatarUploadedThumb.classList.remove('hidden');
+            avatarUploadIcon.classList.add('hidden');
+          }
+          if (previewSceneCtrl) previewSceneCtrl.rebuild();
+          if (threeSceneCtrl) threeSceneCtrl.rebuildAvatar();
+          triggerToast('Selfie Mapped to 3D Character!');
+        });
+      });
+    });
+  }
+
+  // Quick-Test Studio Presets
+  document.querySelectorAll('.avatar-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.userAvatar.photoDataUrl = '';
+      state.userAvatar.skinColor = btn.getAttribute('data-skin') || '#d9a583';
+      state.userAvatar.hairColor = btn.getAttribute('data-hair') || '#1b1815';
+      state.userAvatar.hairStyle = btn.getAttribute('data-hair-style') || 'sleek';
+      state.userAvatar.name = btn.getAttribute('data-name') || 'Studio Twin';
+      state.userAvatar.created = true;
+      persistState();
+
+      if (avatarSkinColorInput) avatarSkinColorInput.value = state.userAvatar.skinColor;
+      if (avatarHairStyleSelect) avatarHairStyleSelect.value = state.userAvatar.hairStyle;
+      if (avatarUploadedThumb && avatarUploadIcon) {
+        avatarUploadedThumb.classList.add('hidden');
+        avatarUploadIcon.classList.remove('hidden');
+      }
+
+      runAvatarSynthesisAnimation(() => {
+        triggerToast(`3D Preset Loaded: ${state.userAvatar.name}`);
+      });
+    });
+  });
+
+  // Live Styling Controls
+  if (avatarHairStyleSelect) {
+    avatarHairStyleSelect.addEventListener('change', (e) => {
+      state.userAvatar.hairStyle = e.target.value;
+      persistState();
+      if (previewSceneCtrl) previewSceneCtrl.rebuild();
+      if (threeSceneCtrl) threeSceneCtrl.rebuildAvatar();
+    });
+  }
+  if (avatarOutfitSelect) {
+    avatarOutfitSelect.addEventListener('change', (e) => {
+      state.userAvatar.outfitColor = e.target.value;
+      persistState();
+      if (previewSceneCtrl) previewSceneCtrl.rebuild();
+      if (threeSceneCtrl) threeSceneCtrl.rebuildAvatar();
+    });
+  }
+  if (avatarSkinColorInput) {
+    avatarSkinColorInput.addEventListener('input', (e) => {
+      state.userAvatar.skinColor = e.target.value;
+      persistState();
+      if (previewSceneCtrl) previewSceneCtrl.rebuild();
+      if (threeSceneCtrl) threeSceneCtrl.rebuildAvatar();
+    });
+  }
+  if (avatarHeadScaleInput) {
+    avatarHeadScaleInput.addEventListener('input', (e) => {
+      state.userAvatar.headScale = parseFloat(e.target.value) || 1.0;
+      persistState();
+      if (previewSceneCtrl) previewSceneCtrl.rebuild();
+      if (threeSceneCtrl) threeSceneCtrl.rebuildAvatar();
+    });
+  }
+
+  // Generate & Wear on Selected Product
+  if (saveAvatarApplyBtn) {
+    saveAvatarApplyBtn.addEventListener('click', () => {
+      state.userAvatar.created = true;
+      persistState();
+      const targetProd = pendingAvatarProduct || state.activeStudioProduct;
+      closeAvatarCreatorModal();
+      loadProductInto3dStudio(targetProd, true);
+      triggerToast(`Your 3D Character is Now Wearing ${targetProd.title}`);
     });
   }
 
@@ -1157,6 +1970,9 @@
       }
       if (renderImg) {
         renderImg.style.filter = `${state.customizer.finishFilter === 'none' ? '' : state.customizer.finishFilter} drop-shadow(0 20px 30px rgba(0,0,0,0.85))`;
+      }
+      if (threeSceneCtrl) {
+        threeSceneCtrl.applyFinishMaterialColor(state.customizer.finishName);
       }
       updateCustomizerValuation();
       triggerToast('Material Set: ' + state.customizer.finishName);

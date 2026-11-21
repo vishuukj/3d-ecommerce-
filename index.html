@@ -229,6 +229,11 @@
             <span class="material-symbols-outlined text-[18px]" id="layoutModeIcon">aspect_ratio</span>
           </button>
 
+          <button aria-label="My 3D Character" class="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-primary/15 hover:bg-primary/25 text-primary transition-all hairline-gold" id="openAvatarModalBtn" title="Create or Edit Your 3D Character from Photo">
+            <span class="material-symbols-outlined text-[16px]">face_retouching_natural</span>
+            <span class="hidden sm:inline font-spec-code-sm text-[10px] uppercase tracking-wider">3D Avatar</span>
+          </button>
+
           <button aria-label="Search and Filter" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors relative" id="openSearchModalBtn" title="Search &amp; Acoustic Telemetry Filter">
             <span class="material-symbols-outlined text-[20px]">tune</span>
           </button>
@@ -330,6 +335,10 @@
                   <span>Acoustic Profile</span>
                 </button>
               </div>
+              <button class="w-full z-10 flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-secondary/10 hover:bg-secondary/20 text-secondary border border-secondary/30 font-spec-code-sm text-spec-code-sm uppercase tracking-wider transition-all active:scale-[0.99]" id="heroTryAvatarBtn" type="button">
+                <span class="material-symbols-outlined text-[16px]">face_retouching_natural</span>
+                <span>Try AURA ONE on My 3D Character</span>
+              </button>
             </div>
           </div>
         </div>
@@ -424,20 +433,28 @@
             <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-secondary/5 blur-[90px] pointer-events-none"></div>
 
             <!-- Top HUD Status Bar inside Studio Viewport -->
-            <div class="w-full flex items-center justify-between p-space-md z-10 gap-2">
-              <div class="flex items-center gap-1.5">
+            <div class="w-full flex flex-wrap items-center justify-between p-space-md z-10 gap-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
                 <div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container/70 backdrop-blur-md">
                   <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-ping"></span>
-                  <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-widest">3D ORBIT ACTV</span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-widest">3D ORBIT</span>
                 </div>
                 <!-- Toggle between Studio Render & Real-Time Three.js WebGL Mesh -->
-                <button class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high/80 hover:bg-surface-container-highest text-on-surface-variant hover:text-secondary transition-all font-spec-code-sm text-spec-code-sm uppercase" id="toggleWebglModeBtn" title="Switch Studio Photo / WebGL 3D Mesh">
+                <button class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high/80 hover:bg-surface-container-highest text-on-surface-variant hover:text-secondary transition-all font-spec-code-sm text-spec-code-sm uppercase" id="toggleWebglModeBtn" title="Switch Studio Photo / WebGL 3D Mesh" type="button">
                   <span class="material-symbols-outlined text-[14px] text-secondary">deployed_code</span>
                   <span id="webglModeBtnLabel">WebGL Mesh</span>
                 </button>
+                <!-- Try On User's 3D Character Toggle -->
+                <button class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/15 hover:bg-primary/25 text-primary border border-primary/35 transition-all font-spec-code-sm text-spec-code-sm uppercase" id="toggleAvatarTryOnBtn" title="Wear this product on your 3D Character" type="button">
+                  <span class="material-symbols-outlined text-[14px]">face_retouching_natural</span>
+                  <span id="avatarTryOnBtnLabel">My 3D Character</span>
+                </button>
+                <button class="w-7 h-7 rounded-full bg-surface-container-high/80 hover:bg-surface-container-highest text-on-surface-variant hover:text-primary flex items-center justify-center transition-all" id="openAvatarEditFromStudioBtn" title="Upload Photo / Customize 3D Character" type="button">
+                  <span class="material-symbols-outlined text-[14px]">add_a_photo</span>
+                </button>
               </div>
 
-              <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md text-on-surface-variant hover:text-on-surface transition-all active:scale-95 shadow-sm" id="explodedToggleBtn">
+              <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md text-on-surface-variant hover:text-on-surface transition-all active:scale-95 shadow-sm" id="explodedToggleBtn" type="button">
                 <span class="material-symbols-outlined text-[16px] text-primary" id="explodedIcon">layers</span>
                 <span class="font-spec-code-sm text-spec-code-sm text-on-surface uppercase tracking-wider" id="explodedLabel">Explode Layers</span>
               </button>
@@ -1533,6 +1550,10 @@
           <span>Add to Vault</span>
         </button>
       </div>
+      <button class="w-full py-2.5 px-4 rounded-full bg-secondary/10 hover:bg-secondary/20 text-secondary border border-secondary/30 font-spec-code-sm text-spec-code-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all" id="modalTryAvatarBtn" type="button">
+        <span class="material-symbols-outlined text-[17px]">face_retouching_natural</span>
+        <span>Wear on My 3D Character</span>
+      </button>
     </div>
   </div>
 
@@ -1857,6 +1878,129 @@
           <span>PCI-DSS Level 1 • HMAC-SHA256</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL 6: PHOTO-TO-3D CHARACTER STUDIO (VIRTUAL TRY-ON AVATAR)       -->
+  <!-- =================================================================== -->
+  <div class="fixed inset-0 z-[65] bg-black/85 backdrop-blur-xl hidden items-end sm:items-center justify-center p-0 sm:p-4" id="avatarCreatorModal">
+    <div class="w-full max-w-lg bg-surface-container-low rounded-t-2xl sm:rounded-2xl p-space-md shadow-2xl hairline-gold flex flex-col gap-space-md max-h-[93vh] overflow-y-auto">
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+            Neural Photogrammetry // 3D Digital Twin
+          </span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface mt-0.5">Create Your 3D Character</h3>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="closeAvatarModalBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <!-- Target Product Context Pill -->
+      <div class="flex items-center justify-between px-3 py-2 rounded-lg bg-surface-container-lowest hairline-border">
+        <span class="font-spec-code-sm text-[11px] text-on-surface-variant uppercase">Target Hardware Fit:</span>
+        <span class="font-spec-code-sm text-[11px] text-primary font-semibold uppercase" id="avatarTargetProductLabel">AURA ONE Flagship</span>
+      </div>
+
+      <!-- Live 3D Character Preview Chamber + Photo Upload Controls -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch">
+        <!-- Live WebGL 3D Character Preview -->
+        <div class="relative h-60 rounded-xl bg-surface-container-lowest overflow-hidden hairline-border flex flex-col items-center justify-center">
+          <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_40%,rgba(0,238,252,0.14)_0%,rgba(212,175,55,0.06)_55%,transparent_80%)]"></div>
+          <canvas class="w-full h-full relative z-10 cursor-grab active:cursor-grabbing" id="avatarPreviewCanvas"></canvas>
+
+          <!-- Synthesis Scanning Overlay -->
+          <div class="hidden absolute inset-0 z-20 bg-surface-container-lowest/90 backdrop-blur-md flex-col items-center justify-center gap-2 p-4 text-center" id="avatarSynthesisOverlay">
+            <span class="material-symbols-outlined text-secondary text-[32px] animate-spin">3d_rotation</span>
+            <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-wider">Synthesizing 3D Mesh...</span>
+            <div class="w-36 h-1.5 rounded-full bg-surface-container-high overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-300" id="avatarSynthProgress" style="width: 15%"></div>
+            </div>
+            <span class="font-label-caps text-[9px] text-on-surface-variant uppercase" id="avatarSynthStage">Extracting Facial UV &amp; Skin Tone</span>
+          </div>
+
+          <div class="absolute bottom-2 left-2 z-10 px-2 py-0.5 rounded-full bg-surface-container-high/80 backdrop-blur-md font-spec-code-sm text-[10px] text-secondary uppercase">
+            3D Mesh Preview
+          </div>
+        </div>
+
+        <!-- Photo Upload, Webcam & Quick Portraits -->
+        <div class="flex flex-col justify-between gap-2.5">
+          <!-- Upload Dropzone -->
+          <label class="flex-1 flex flex-col items-center justify-center gap-1.5 p-3 rounded-xl border border-dashed border-primary/45 bg-surface-container-lowest/70 hover:bg-surface-container cursor-pointer transition-all text-center group" for="avatarPhotoInput" id="avatarDropzone">
+            <div class="w-10 h-10 rounded-full bg-primary/15 text-primary flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden" id="avatarThumbWrap">
+              <span class="material-symbols-outlined text-[22px]" id="avatarUploadIcon">add_a_photo</span>
+              <img alt="Uploaded Portrait" class="hidden w-full h-full object-cover" id="avatarUploadedThumb" src=""/>
+            </div>
+            <span class="font-body-sm text-body-sm font-medium text-on-surface">Upload Your Photo</span>
+            <span class="font-spec-code-sm text-[10px] text-on-surface-variant uppercase">JPG / PNG Selfie → 3D Model</span>
+            <input accept="image/*" class="hidden" id="avatarPhotoInput" type="file"/>
+          </label>
+
+          <!-- Live Camera Capture Toggle -->
+          <div class="flex flex-col gap-1.5">
+            <button class="w-full py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-spec-code-sm text-[11px] uppercase flex items-center justify-center gap-1.5 transition-colors" id="avatarCameraBtn" type="button">
+              <span class="material-symbols-outlined text-[16px] text-secondary">photo_camera</span>
+              <span id="avatarCameraBtnLabel">Use Live Camera</span>
+            </button>
+            <div class="hidden relative rounded-lg overflow-hidden bg-black h-32" id="avatarCameraBox">
+              <video autoplay="" class="w-full h-full object-cover scale-x-[-1]" id="avatarCameraVideo" muted="" playsinline=""></video>
+              <button class="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-on-primary font-spec-code-sm text-[10px] font-bold uppercase shadow-lg" id="captureSelfieBtn" type="button">Capture Selfie</button>
+            </div>
+          </div>
+
+          <!-- 1-Click Studio Demo Avatars -->
+          <div class="flex flex-col gap-1">
+            <span class="font-label-caps text-[9px] text-on-surface-variant uppercase tracking-wider">Or Quick-Test Studio Presets:</span>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button class="avatar-preset-btn py-1.5 px-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-spec-code-sm text-[10px] uppercase transition-colors" data-hair="#1b1815" data-hair-style="sleek" data-name="Aria" data-skin="#d9a583" type="button">Aria</button>
+              <button class="avatar-preset-btn py-1.5 px-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-spec-code-sm text-[10px] uppercase transition-colors" data-hair="#2c1d11" data-hair-style="volume" data-name="Marcus" data-skin="#8d5a3b" type="button">Marcus</button>
+              <button class="avatar-preset-btn py-1.5 px-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-spec-code-sm text-[10px] uppercase transition-colors" data-hair="#141418" data-hair-style="buzz" data-name="Kenji" data-skin="#ecc5a5" type="button">Kenji</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Character Styling Controls -->
+      <div class="grid grid-cols-2 gap-2.5 bg-surface-container p-3 rounded-xl hairline-border">
+        <div>
+          <label class="font-label-caps text-[10px] text-on-surface-variant uppercase block mb-1">Hair Topology</label>
+          <select class="w-full bg-surface-container-lowest text-on-surface font-body-sm text-xs px-2.5 py-2 rounded-lg hairline-border focus:outline-none focus:border-primary" id="avatarHairStyleSelect">
+            <option value="sleek">Sleek Studio</option>
+            <option value="volume">Curly / Volume</option>
+            <option value="buzz">Minimal Buzz</option>
+            <option value="long">Long Flow</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-label-caps text-[10px] text-on-surface-variant uppercase block mb-1">Atelier Attire</label>
+          <select class="w-full bg-surface-container-lowest text-on-surface font-body-sm text-xs px-2.5 py-2 rounded-lg hairline-border focus:outline-none focus:border-primary" id="avatarOutfitSelect">
+            <option value="#14161c">Obsidian Turtleneck</option>
+            <option value="#2b313a">Titanium Jacket</option>
+            <option value="#524322">Champagne Blazer</option>
+          </select>
+        </div>
+        <div class="col-span-2 flex items-center justify-between gap-3 pt-1">
+          <div class="flex items-center gap-2">
+            <label class="font-label-caps text-[10px] text-on-surface-variant uppercase" for="avatarSkinColorInput">Skin Tone</label>
+            <input class="w-7 h-7 rounded-full bg-transparent border-0 cursor-pointer" id="avatarSkinColorInput" type="color" value="#d9a583"/>
+          </div>
+          <div class="flex-1 flex items-center gap-2">
+            <label class="font-label-caps text-[10px] text-on-surface-variant uppercase whitespace-nowrap" for="avatarHeadScaleInput">Head Fit</label>
+            <input class="w-full accent-primary cursor-pointer" id="avatarHeadScaleInput" max="1.15" min="0.88" step="0.01" type="range" value="1.0"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generate & Wear Action CTA -->
+      <button class="w-full py-3.5 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-[16px] font-semibold flex items-center justify-center gap-2 shadow-[0_0_24px_rgba(212,175,55,0.35)] hover:brightness-110 active:scale-[0.99] transition-all" id="saveAvatarApplyBtn" type="button">
+        <span class="material-symbols-outlined text-[20px]">check_circle</span>
+        <span>Generate 3D Character &amp; Wear Product</span>
+      </button>
     </div>
   </div>
 
