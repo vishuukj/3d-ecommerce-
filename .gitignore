@@ -3,4 +3,3 @@ node_modules/
 *.zip
 _stitch_exports/
 dev-server.js
-package.json
