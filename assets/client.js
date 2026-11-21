@@ -911,11 +911,11 @@
 
     // 4. Configurable 3D Hair Topology
     const hairStyle = avatarCfg.hairStyle || 'sleek';
-    const hairCapGeo = new THREE.SphereGeometry(0.99, 36, 36, 0, Math.PI * 2, 0, Math.PI * 0.56);
-    hairCapGeo.scale(0.86, 1.05, 0.93);
+    const hairCapGeo = new THREE.SphereGeometry(0.99, 36, 36, 0, Math.PI * 2, 0, Math.PI * 0.48);
+    hairCapGeo.scale(0.86, 1.04, 0.93);
     const hairCap = new THREE.Mesh(hairCapGeo, hairMat);
-    hairCap.position.set(0, -0.01, -0.03);
-    hairCap.rotation.x = -0.22;
+    hairCap.position.set(0, 0.08, -0.08);
+    hairCap.rotation.x = -0.45;
     headPivot.add(hairCap);
 
     if (hairStyle === 'volume') {
