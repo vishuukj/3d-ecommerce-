@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta content="mobile_tab" name="shell-type"/>
+  <title>AURA — Luxury Acoustic &amp; 3D Studio E-Commerce Platform</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          screens: {
+            xs: "380px"
+          },
+          colors: {
+            "surface-bright": "#38393c",
+            "secondary-fixed": "#7df4ff",
+            "on-primary-fixed": "#241a00",
+            "surface-container-low": "#1b1b1f",
+            "error-container": "#93000a",
+            "tertiary-fixed": "#dde3eb",
+            "on-tertiary-fixed": "#161c22",
+            "surface-container-highest": "#343538",
+            "surface-tint": "#e9c349",
+            "primary-fixed-dim": "#e9c349",
+            "on-tertiary": "#2b3137",
+            "secondary-container": "#00eefc",
+            "on-background": "#e3e2e6",
+            "secondary-fixed-dim": "#00dbe9",
+            "tertiary-fixed-dim": "#c1c7cf",
+            "on-secondary-fixed": "#002022",
+            "tertiary-container": "#adb3bb",
+            "on-secondary-fixed-variant": "#004f54",
+            "on-tertiary-container": "#3f454c",
+            "on-error": "#690005",
+            "on-tertiary-fixed-variant": "#41474e",
+            "on-primary-fixed-variant": "#574500",
+            "on-secondary-container": "#00686f",
+            "on-error-container": "#ffdad6",
+            "inverse-surface": "#e3e2e6",
+            "primary": "#f2ca50",
+            "outline": "#99907c",
+            "inverse-on-surface": "#303034",
+            "surface-container-lowest": "#0d0e11",
+            "inverse-primary": "#735c00",
+            "surface-variant": "#343538",
+            "error": "#ffb4ab",
+            "primary-fixed": "#ffe088",
+            "background": "#121316",
+            "on-secondary": "#00363a",
+            "on-primary": "#3c2f00",
+            "surface-dim": "#121316",
+            "surface": "#121316",
+            "on-surface": "#e3e2e6",
+            "on-primary-container": "#554300",
+            "on-surface-variant": "#d0c5af",
+            "secondary": "#d3fbff",
+            "surface-container": "#1f1f23",
+            "surface-container-high": "#292a2d",
+            "outline-variant": "#4d4635",
+            "primary-container": "#d4af37",
+            "tertiary": "#c8cfd6"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-3xl": "6rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "margin-tablet": "2.5rem",
+            "space-md": "1rem",
+            "space-2xl": "4rem",
+            "gutter": "1.5rem",
+            "margin-desktop": "4.5rem",
+            "gutter-desktop": "2.5rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem",
+            "margin": "1.25rem"
+          },
+          fontFamily: {
+            "display-hero-mobile": ["Space Grotesk", "sans-serif"],
+            "headline-sm": ["Space Grotesk", "sans-serif"],
+            "spec-code-sm": ["JetBrains Mono", "monospace"],
+            "body-md": ["Inter", "sans-serif"],
+            "display-hero": ["Space Grotesk", "sans-serif"],
+            "headline-lg": ["Space Grotesk", "sans-serif"],
+            "spec-code-lg": ["JetBrains Mono", "monospace"],
+            "headline-md": ["Space Grotesk", "sans-serif"],
+            "label-caps": ["JetBrains Mono", "monospace"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "headline-lg-mobile": ["Space Grotesk", "sans-serif"]
+          },
+          fontSize: {
+            "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-sm": ["22px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "500" }],
+            "spec-code-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+            "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "600" }],
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+            "spec-code-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "label-caps": ["10px", { "lineHeight": "14px", "letterSpacing": "0.12em", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @layer base {
+      html, body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #0d0e11;
+        color: #e3e2e6;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .pt-safe {
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .hairline-border {
+      border: 1px solid rgba(226, 232, 240, 0.08);
+    }
+    .hairline-gold {
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+    .view-section {
+      display: none;
+      animation: fadeSlideIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .view-section.active {
+      display: flex;
+    }
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Responsive shell modes: mobile frame vs expanded studio */
+    .app-shell {
+      max-width: 480px;
+      margin: 0 auto;
+      background-color: #121316;
+      min-height: 100dvh;
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(226, 232, 240, 0.08);
+      transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body.expanded-layout .app-shell {
+      max-width: 1120px;
+    }
+    body.expanded-layout .responsive-two-col {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    body.expanded-layout .responsive-product-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-[#0a0b0e] text-on-surface font-body-md text-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+
+  <div class="app-shell relative flex flex-col">
+    <!-- Top Fixed Luxury Glass Header -->
+    <header class="sticky top-0 w-full z-40 pt-safe bg-surface-container-lowest/85 backdrop-blur-xl shadow-[0_1px_12px_rgba(0,0,0,0.5)] border-b border-white/5">
+      <div class="h-16 px-margin flex items-center justify-between">
+        <!-- Brand Logo & Current Screen Subtitle -->
+        <button class="flex items-center gap-space-sm text-left group focus:outline-none" id="brandHomeBtn" title="Return to Discover">
+          <div class="w-9 h-9 rounded-full bg-surface-container-high hairline-gold flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.2)] group-hover:scale-105 transition-transform">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9" stroke="#D4AF37" stroke-opacity="0.45" stroke-width="1.2"/>
+              <circle cx="12" cy="12" r="5.5" stroke="#00EEFC" stroke-width="1.4"/>
+              <path d="M12 3V6M12 18V21M3 12H6M18 12H21" stroke="#D4AF37" stroke-linecap="round" stroke-width="1.4"/>
+              <circle cx="12" cy="12" fill="#F2CA50" r="2"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none uppercase">AURA</span>
+            <span class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-0.5" id="headerSubtitle">Discover</span>
+          </div>
+        </button>
+
+        <!-- Right Controls: Spatial 96k Status, Layout Toggle, Filter/Search, Profile -->
+        <div class="flex items-center gap-1.5">
+          <button class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container/70 hover:bg-surface-container-high backdrop-blur-md transition-all hairline-border" id="headerSpatialBtn" title="Toggle Ambient Spatial 96kHz Test Tone">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_8px_rgba(0,240,255,0.8)] animate-pulse" id="headerSpatialDot"></span>
+            <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase" id="headerSpatialText">Spatial 96k</span>
+          </button>
+
+          <button aria-label="Toggle Desktop Studio Grid / Mobile Frame" class="hidden md:flex w-9 h-9 items-center justify-center rounded-full bg-surface-container/60 text-on-surface-variant hover:text-primary transition-colors hairline-border" id="layoutModeBtn" title="Switch Mobile / Desktop Expanded View">
+            <span class="material-symbols-outlined text-[18px]" id="layoutModeIcon">aspect_ratio</span>
+          </button>
+
+          <button aria-label="Search and Filter" class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors relative" id="openSearchModalBtn" title="Search &amp; Acoustic Telemetry Filter">
+            <span class="material-symbols-outlined text-[20px]">tune</span>
+          </button>
+
+          <button aria-label="Account Profile" class="w-10 h-10 flex items-center justify-center relative" id="openProfileModalBtn" title="AURA Atelier Member Vault &amp; Saved Hardware">
+            <img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-1 ring-primary/40 hover:ring-secondary transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1HlMImWLamzjOr7gaYoQAgiYClNRbsBMGgM9a3jKxFf-P0PJFq9j8ZGzsscrztJ642VH2Td1cPaZHohUavyqPO67HtgimFSY-QwPRM7KfRBwsMizAIbk_r_3peSGw_TcNeH8LAwivjimuzSwIzGQPZzBS1ENoe6TIxSD7BnSlC2WO1jvMv5p-JJcNjVaylg7u-8qBk5GfBO2YL5n8oTa4lSahcDJyJ6qI-sy39ao"/>
+            <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary ring-2 ring-surface-container-lowest" id="savedBookmarkDot"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 1: DISCOVER (Flagship Showcase & Curated Acoustic Collection) -->
+    <!-- =================================================================== -->
+    <main class="view-section active flex-col relative w-full pt-4 pb-28 bg-surface flex-1" id="view-discover">
+      <div class="flex flex-col w-full px-margin pb-6 gap-space-lg">
+
+        <!-- Flagship Showcase Card -->
+        <div class="relative w-full rounded-xl bg-surface-container-low p-space-md shadow-2xl overflow-hidden flex flex-col gap-space-md hairline-border">
+          <!-- Subtle Ambient Glow Overlay -->
+          <div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-primary-container/10 blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-secondary-container/10 blur-3xl pointer-events-none"></div>
+
+          <!-- Top Badge Row -->
+          <div class="flex items-center justify-between z-10">
+            <div class="flex items-center gap-space-xs bg-surface-container-high/80 px-2.5 py-1 rounded-full backdrop-blur-md">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+              <span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Flagship Masterwork</span>
+            </div>
+            <button class="flex items-center gap-1.5 bg-surface-container-highest/60 hover:bg-surface-container-highest px-2.5 py-1 rounded-full backdrop-blur-md transition-all active:scale-95 text-secondary" id="inspectBadge">
+              <span class="material-symbols-outlined text-[14px]">view_in_ar</span>
+              <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase">Inspect 3D</span>
+            </button>
+          </div>
+
+          <div class="responsive-two-col flex flex-col gap-space-md">
+            <!-- Product Visual Representation with Simulated 3D Depth -->
+            <div class="relative w-full h-56 md:h-64 rounded-lg bg-surface-container-lowest/80 overflow-hidden flex items-center justify-center group cursor-pointer" id="heroProductImageCard" title="Click to Inspect in 3D Studio">
+              <img class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" id="heroFlagshipImg" alt="AURA ONE Flagship Over-Ear Headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4dFNj3srGAs7ddlUn923evwT0_FZWjEzGAXvIIUQ2B1szfsmcp1tf77_XE4kBJodLJfsaFx1vV5DqswioVgvcePNQOjFl1TT25c_QN45s_t2Q1TLIETuhotCVCbPRTAqgX5skYUPT0RZt_3bAoGmE_tX4tFcHhGlDqqbtdQ15ieGKI48F5TJgOgDAujvHEPeKmMHB6q0R4vxS92KR11MLU5jPB95spSps4Hi4Fno"/>
+              <!-- Monolithic Micro HUD Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent flex flex-col justify-end p-space-sm pointer-events-none">
+                <div class="flex items-center justify-between text-on-surface-variant font-spec-code-sm text-spec-code-sm">
+                  <span class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px] text-secondary">360</span>
+                    3-AXIS GYRO STABILIZED
+                  </span>
+                  <span class="text-tertiary-fixed-dim">CALIBRATED: 0.02% THD</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col justify-between gap-space-md">
+              <!-- Product Title & Acoustic Highlights -->
+              <div class="flex flex-col gap-1 z-10">
+                <div class="flex items-baseline justify-between">
+                  <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight">AURA ONE</h2>
+                  <span class="font-headline-sm text-headline-sm text-primary-container font-semibold">$890 <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant">USD</span></span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Beryllium Diaphragm Over-Ear Flagship</p>
+              </div>
+
+              <!-- Interactive Audio Frequency Curve Visualization -->
+              <div class="flex flex-col gap-1.5 p-space-sm rounded-lg bg-surface-container/70 backdrop-blur-md z-10 cursor-crosshair" id="freqCurveContainer" title="Move cursor across curve to inspect frequency response">
+                <div class="flex items-center justify-between font-label-caps text-label-caps text-on-surface-variant">
+                  <span>ACOUSTIC RESONANCE RESPONSE</span>
+                  <span class="text-secondary font-spec-code-sm text-spec-code-sm" id="freqReadoutLabel">5Hz — 48,000Hz</span>
+                </div>
+                <!-- SVG Frequency Curve -->
+                <div class="w-full h-12 flex items-center relative">
+                  <svg class="w-full h-full overflow-visible" fill="none" id="discoverFreqSvg" viewBox="0 0 320 48">
+                    <defs>
+                      <linearGradient id="freqGlow" x1="0%" x2="100%" y1="0%" y2="0%">
+                        <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.3"></stop>
+                        <stop offset="50%" stop-color="#00EEFC" stop-opacity="0.9"></stop>
+                        <stop offset="100%" stop-color="#D4AF37" stop-opacity="0.5"></stop>
+                      </linearGradient>
+                      <linearGradient id="areaFill" x1="0%" x2="0%" y1="0%" y2="100%">
+                        <stop offset="0%" stop-color="#00EEFC" stop-opacity="0.18"></stop>
+                        <stop offset="100%" stop-color="#00EEFC" stop-opacity="0.0"></stop>
+                      </linearGradient>
+                    </defs>
+                    <path d="M 0 38 Q 40 38 60 26 T 120 18 T 180 20 T 240 10 T 280 22 T 320 34" fill="none" stroke="url(#freqGlow)" stroke-linecap="round" stroke-width="2"></path>
+                    <path d="M 0 38 Q 40 38 60 26 T 120 18 T 180 20 T 240 10 T 280 22 T 320 34 L 320 48 L 0 48 Z" fill="url(#areaFill)"></path>
+                    <line id="freqCursorLine" stroke="#00EEFC" stroke-dasharray="2 2" stroke-opacity="0.4" stroke-width="1" x1="240" x2="240" y1="0" y2="48"/>
+                    <circle class="animate-pulse" cx="240" cy="10" fill="#00EEFC" id="freqCursorDot" r="3.5"></circle>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="grid grid-cols-2 gap-space-sm z-10 pt-1">
+                <button class="flex items-center justify-center gap-1.5 py-3 px-4 rounded-full bg-primary-container text-on-primary-container font-body-sm font-semibold transition-transform hover:brightness-110 active:scale-95 shadow-[0_0_20px_rgba(212,175,55,0.25)]" id="heroAcquireNowBtn">
+                  <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+                  <span>Acquire Now</span>
+                </button>
+                <button class="flex items-center justify-center gap-1.5 py-3 px-4 rounded-full bg-surface-container-highest text-on-surface font-body-sm font-medium transition-colors hover:text-secondary active:scale-95" id="heroAcousticProfileBtn">
+                  <span class="material-symbols-outlined text-[18px]">equalizer</span>
+                  <span>Acoustic Profile</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Filter Rail -->
+        <div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar py-1 -mx-margin px-margin" id="discoverFilterRail">
+          <button class="filter-chip active flex-shrink-0 px-4 py-2 rounded-full bg-primary-container text-on-primary-container font-spec-code-sm text-spec-code-sm uppercase tracking-wider transition-all" data-category="all">All Hardware</button>
+          <button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-spec-code-sm text-spec-code-sm uppercase tracking-wider transition-all" data-category="over-ear">Spatial Over-Ear</button>
+          <button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-spec-code-sm text-spec-code-sm uppercase tracking-wider transition-all" data-category="iem">In-Ear Monitors</button>
+          <button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-spec-code-sm text-spec-code-sm uppercase tracking-wider transition-all" data-category="dac">Desktop DACs</button>
+          <button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface font-spec-code-sm text-spec-code-sm uppercase tracking-wider transition-all" data-category="limited">Limited Edition</button>
+        </div>
+
+        <!-- Interactive Acoustic Technology Badges -->
+        <div class="grid grid-cols-3 gap-2">
+          <button class="tech-badge-btn flex flex-col items-center text-center p-2.5 rounded-lg bg-surface-container-low transition-all hover:bg-surface-container hairline-border active:scale-95" data-tech="spatial">
+            <span class="material-symbols-outlined text-secondary text-[22px] mb-1">surround_sound</span>
+            <span class="font-spec-code-sm text-spec-code-sm text-on-surface font-medium">360° Stage</span>
+            <span class="font-label-caps text-label-caps text-on-surface-variant mt-0.5">Spatial Matrix</span>
+          </button>
+          <button class="tech-badge-btn flex flex-col items-center text-center p-2.5 rounded-lg bg-surface-container-low transition-all hover:bg-surface-container hairline-border active:scale-95" data-tech="lossless">
+            <span class="material-symbols-outlined text-primary text-[22px] mb-1">graphic_eq</span>
+            <span class="font-spec-code-sm text-spec-code-sm text-on-surface font-medium">24b / 192k</span>
+            <span class="font-label-caps text-label-caps text-on-surface-variant mt-0.5">Zero Loss</span>
+          </button>
+          <button class="tech-badge-btn flex flex-col items-center text-center p-2.5 rounded-lg bg-surface-container-low transition-all hover:bg-surface-container hairline-border active:scale-95" data-tech="anc">
+            <span class="material-symbols-outlined text-secondary-fixed text-[22px] mb-1">shield</span>
+            <span class="font-spec-code-sm text-spec-code-sm text-on-surface font-medium">-42dB Shield</span>
+            <span class="font-label-caps text-label-caps text-on-surface-variant mt-0.5">Hybrid Active</span>
+          </button>
+        </div>
+
+        <!-- Curated Acoustic Collection -->
+        <div class="flex flex-col gap-space-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="font-headline-sm text-headline-sm text-on-surface">Curated Collection</span>
+              <span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-spec-code-sm text-spec-code-sm" id="collectionCountBadge">03 EDITIONS</span>
+            </div>
+            <button class="font-spec-code-sm text-spec-code-sm text-primary uppercase tracking-wider flex items-center gap-0.5 hover:underline" id="toggleArchiveBtn">
+              <span id="archiveBtnText">Archive</span> <span class="material-symbols-outlined text-[14px]" id="archiveBtnIcon">chevron_right</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Product Grid rendered by app.js (starts with the exact 3 Stitch editions + expandable archive/category items) -->
+          <div class="responsive-product-grid grid grid-cols-1 gap-space-md" id="curatedProductGrid"></div>
+        </div>
+
+        <!-- Interactive 3D Studio Banner / Launch CTA -->
+        <div class="relative w-full rounded-xl bg-gradient-to-br from-surface-container via-surface-container-high to-surface-container-low p-space-md shadow-xl overflow-hidden hairline-border">
+          <!-- Spatial Cyan Lighting Line -->
+          <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent opacity-80"></div>
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_#00EEFC] animate-ping"></span>
+              <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Real-time WebGL Engine</span>
+            </div>
+            <div class="flex items-center gap-1 bg-surface-container-lowest/80 px-2 py-0.5 rounded-full font-spec-code-sm text-spec-code-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-[12px] text-primary">sync</span>
+              <span>60 FPS</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-1 mb-space-md">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">Explore Acoustic Architecture</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">Dissect driver metallurgy, inspect titanium resonance rings, and isolate sound chambers in full 3D space.</p>
+          </div>
+          <button class="w-full flex items-center justify-between py-3.5 px-space-md rounded-full bg-surface-container-lowest hover:bg-surface-bright text-on-surface font-body-sm font-semibold transition-all group hairline-border" id="launch3dStudioBannerBtn">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[20px]">view_in_ar</span>
+              </div>
+              <span>Launch Interactive 3D Studio</span>
+            </div>
+            <span class="material-symbols-outlined text-[18px] text-secondary group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </button>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 2: 3D STUDIO (Interactive 3D Stage, Exploded Layers & DSP)   -->
+    <!-- =================================================================== -->
+    <main class="view-section flex-col relative w-full pt-4 pb-28 bg-surface flex-1" id="view-3d-studio">
+      <div class="flex flex-col w-full px-margin pb-6 gap-space-lg select-none">
+
+        <div class="responsive-two-col flex flex-col gap-space-lg">
+          <!-- Interactive 3D Studio Stage Area -->
+          <section class="relative w-full rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col items-center hairline-border">
+            <!-- Spatial Studio Atmospheric Lighting Backdrop -->
+            <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_40%,rgba(0,238,252,0.12)_0%,rgba(212,175,55,0.06)_45%,transparent_75%)]"></div>
+            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-secondary/5 blur-[90px] pointer-events-none"></div>
+
+            <!-- Top HUD Status Bar inside Studio Viewport -->
+            <div class="w-full flex items-center justify-between p-space-md z-10 gap-2">
+              <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full bg-surface-container/70 backdrop-blur-md">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-ping"></span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-widest">3D ORBIT ACTV</span>
+                </div>
+                <!-- Toggle between Studio Render & Real-Time Three.js WebGL Mesh -->
+                <button class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high/80 hover:bg-surface-container-highest text-on-surface-variant hover:text-secondary transition-all font-spec-code-sm text-spec-code-sm uppercase" id="toggleWebglModeBtn" title="Switch Studio Photo / WebGL 3D Mesh">
+                  <span class="material-symbols-outlined text-[14px] text-secondary">deployed_code</span>
+                  <span id="webglModeBtnLabel">WebGL Mesh</span>
+                </button>
+              </div>
+
+              <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-high/80 backdrop-blur-md text-on-surface-variant hover:text-on-surface transition-all active:scale-95 shadow-sm" id="explodedToggleBtn">
+                <span class="material-symbols-outlined text-[16px] text-primary" id="explodedIcon">layers</span>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface uppercase tracking-wider" id="explodedLabel">Explode Layers</span>
+              </button>
+            </div>
+
+            <!-- 3D Hardware Interactive Viewport Canvas -->
+            <div class="relative w-full aspect-[4/4.2] flex items-center justify-center p-space-sm cursor-grab active:cursor-grabbing overflow-hidden" id="viewportStage">
+              <!-- Main Product Imagery Base (Default Assembled) -->
+              <img class="w-[85%] h-[85%] object-contain transition-all duration-500 filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.85)] z-0 pointer-events-none" id="headphoneImg" alt="AURA ONE Spatial Studio Hardware" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb2VHwlWxEcErh8lYrtIJqPGXAL1YXf1NLVSrULy4PUQjSVAwoLaRnfu6ocEuR0Jk-BN7j9cYbLJfW9VzSc2krChUfF9fGQyE8YPtByZbCIRCdYKipbHLao098Uxev_h4dV9FxsXpHmiZdPWN6F_S2OPubIK8aAkYEJVznnHiTIN_oKbX66yqM7zidku3vecgOdYFaZ7BpDHw4Lv9A7cTL4NcOVPd1IKlcg7DrZ6M"/>
+
+              <!-- Real-time Three.js WebGL 3D Canvas (Toggled or Hybrid) -->
+              <canvas class="absolute inset-0 w-full h-full z-10 hidden" id="threeStudioCanvas"></canvas>
+
+              <!-- Exploded Layers Visualization Layer (Toggled dynamically) -->
+              <div class="absolute inset-0 flex flex-col justify-between p-5 pointer-events-none opacity-0 transition-opacity duration-500 z-20" id="explodedOverlay">
+                <!-- Tag 1: CNC Titanium Shell -->
+                <button class="layer-tag-btn flex items-center gap-2 self-start transform -translate-x-2 transition-transform duration-500 delay-75 text-left" data-layer-desc="5-Axis CNC milled Grade-5 Titanium outer acoustic shell with sub-micron anodized finish and zero-resonance internal damping ribs." data-layer-title="01 // CNC Titanium Shell" type="button">
+                  <div class="px-2.5 py-1 rounded-md bg-surface-container-highest/90 backdrop-blur-md shadow-lg hairline-border hover:border-secondary">
+                    <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase">01 // CNC Titanium Shell</span>
+                  </div>
+                  <div class="w-8 h-px bg-secondary-fixed-dim/60"></div>
+                  <span class="w-2.5 h-2.5 rounded-full bg-secondary shadow-[0_0_8px_#00EEFC]"></span>
+                </button>
+                <!-- Tag 2: Dampened Acoustic Chamber -->
+                <button class="layer-tag-btn flex items-center gap-2 self-end transform translate-x-2 transition-transform duration-500 delay-150 text-left" data-layer-desc="Twin-vented Helmholtz acoustic chamber tuned to eliminate standing wave reflections between 80Hz and 4.2kHz." data-layer-title="02 // Helmholtz Resonator" type="button">
+                  <span class="w-2.5 h-2.5 rounded-full bg-primary-fixed-dim shadow-[0_0_8px_#F2CA50]"></span>
+                  <div class="w-8 h-px bg-primary/60"></div>
+                  <div class="px-2.5 py-1 rounded-md bg-surface-container-highest/90 backdrop-blur-md shadow-lg hairline-border hover:border-primary">
+                    <span class="font-spec-code-sm text-spec-code-sm text-primary uppercase">02 // Helmholtz Resonator</span>
+                  </div>
+                </button>
+                <!-- Tag 3: 40mm Beryllium Core -->
+                <button class="layer-tag-btn flex items-center gap-2 self-start ml-3 transform -translate-x-2 transition-transform duration-500 delay-200 text-left" data-layer-desc="Vapor-deposited 40mm pure Beryllium dome transducer driven by a 1.6 Tesla N52 Neodymium ring magnet assembly." data-layer-title="03 // 40mm Beryllium Transducer" type="button">
+                  <div class="px-2.5 py-1 rounded-md bg-surface-container-highest/90 backdrop-blur-md shadow-lg hairline-border hover:border-secondary">
+                    <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase">03 // 40mm Beryllium Transducer</span>
+                  </div>
+                  <div class="w-8 h-px bg-secondary/60"></div>
+                  <span class="w-2.5 h-2.5 rounded-full bg-secondary shadow-[0_0_8px_#00EEFC]"></span>
+                </button>
+                <!-- Tag 4: Memory Foam Lambskin -->
+                <button class="layer-tag-btn flex items-center gap-2 self-end mr-2 transform translate-x-2 transition-transform duration-500 delay-300 text-left" data-layer-desc="Multi-density acoustic memory foam wrapped in hand-stitched full-grain lambskin for a 98% passive anechoic seal." data-layer-title="04 // Lambskin Contour Seal" type="button">
+                  <span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed"></span>
+                  <div class="w-8 h-px bg-tertiary/60"></div>
+                  <div class="px-2.5 py-1 rounded-md bg-surface-container-highest/90 backdrop-blur-md shadow-lg hairline-border hover:border-tertiary">
+                    <span class="font-spec-code-sm text-spec-code-sm text-tertiary uppercase">04 // Lambskin Contour Seal</span>
+                  </div>
+                </button>
+              </div>
+
+              <!-- Active Layer Detail Popover inside Viewport -->
+              <div class="hidden absolute top-14 inset-x-4 z-30 p-3 rounded-lg bg-surface-container-lowest/95 backdrop-blur-xl hairline-gold shadow-2xl" id="layerDetailPopover">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-spec-code-sm text-spec-code-sm text-primary uppercase" id="layerPopoverTitle">01 // CNC Titanium Shell</span>
+                  <button class="text-on-surface-variant hover:text-on-surface" id="closeLayerPopoverBtn" type="button">
+                    <span class="material-symbols-outlined text-[16px]">close</span>
+                  </button>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant text-xs" id="layerPopoverDesc"></p>
+              </div>
+
+              <!-- 360 Drag Compass Ring HUD -->
+              <div class="absolute bottom-4 inset-x-0 mx-auto w-40 h-9 rounded-full bg-surface-container-high/70 backdrop-blur-md flex items-center justify-between px-3 pointer-events-none shadow-md z-20">
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant">sync</span>
+                <div class="flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-wider" id="rotationDegrees">0° AZIMUTH</span>
+                </div>
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant">360</span>
+              </div>
+            </div>
+
+            <!-- Studio Camera Preset Chips Carousel -->
+            <div class="w-full flex items-center gap-space-xs px-space-md py-space-sm bg-surface-container-low/90 overflow-x-auto no-scrollbar">
+              <button class="angle-btn active flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-highest text-secondary shadow-sm whitespace-nowrap" data-angle="0">
+                <span class="material-symbols-outlined text-[14px]">view_in_ar</span>
+                <span class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider">Front 3/4</span>
+              </button>
+              <button class="angle-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors" data-angle="90">
+                <span class="material-symbols-outlined text-[14px]">headphones</span>
+                <span class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider">Ear Cup</span>
+              </button>
+              <button class="angle-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors" data-angle="180">
+                <span class="material-symbols-outlined text-[14px]">graphic_eq</span>
+                <span class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider">Internal Core</span>
+              </button>
+              <button class="angle-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface whitespace-nowrap transition-colors" data-angle="270">
+                <span class="material-symbols-outlined text-[14px]">tune</span>
+                <span class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider">Suspension</span>
+              </button>
+            </div>
+          </section>
+
+          <div class="flex flex-col gap-space-lg">
+            <!-- Live Spatial Audio Simulator Card -->
+            <section class="w-full rounded-xl bg-surface-container-low p-space-md shadow-xl flex flex-col gap-space-md relative overflow-hidden hairline-border">
+              <div class="flex items-center justify-between">
+                <div class="flex flex-col">
+                  <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Spatial Acoustics</span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase tracking-wider" id="dspActiveSubtitle">96kHz / 32-Bit Floating DSP</span>
+                </div>
+                <!-- Play Audio Simulator Toggle -->
+                <button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-surface-container-high text-primary hover:bg-surface-container-highest transition-all active:scale-95 shadow-md" id="spatialAudioToggle">
+                  <span class="material-symbols-outlined text-[18px]" id="audioIcon" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-on-surface uppercase tracking-wider" id="audioStatusText">Simulate</span>
+                </button>
+              </div>
+
+              <!-- Acoustic Waveform Spectrum Analyzer -->
+              <div class="w-full h-24 bg-surface-container-lowest rounded-lg p-3 flex flex-col justify-between relative overflow-hidden">
+                <!-- Frequency grid lines -->
+                <div class="absolute inset-0 flex justify-between px-6 pointer-events-none opacity-10">
+                  <div class="w-px h-full bg-on-surface"></div>
+                  <div class="w-px h-full bg-on-surface"></div>
+                  <div class="w-px h-full bg-on-surface"></div>
+                  <div class="w-px h-full bg-on-surface"></div>
+                </div>
+                <!-- Waveform equalizer bars -->
+                <div class="flex items-end justify-between h-14 w-full gap-1 z-10 pt-1" id="spectrumBars">
+                  <div class="w-full bg-primary/40 rounded-t h-[30%] transition-all duration-150"></div>
+                  <div class="w-full bg-primary/60 rounded-t h-[55%] transition-all duration-150"></div>
+                  <div class="w-full bg-primary rounded-t h-[40%] transition-all duration-150"></div>
+                  <div class="w-full bg-secondary/70 rounded-t h-[75%] transition-all duration-150"></div>
+                  <div class="w-full bg-secondary rounded-t h-[90%] transition-all duration-150"></div>
+                  <div class="w-full bg-secondary-fixed rounded-t h-[65%] transition-all duration-150"></div>
+                  <div class="w-full bg-secondary rounded-t h-[80%] transition-all duration-150"></div>
+                  <div class="w-full bg-primary rounded-t h-[60%] transition-all duration-150"></div>
+                  <div class="w-full bg-primary/70 rounded-t h-[45%] transition-all duration-150"></div>
+                  <div class="w-full bg-primary/50 rounded-t h-[30%] transition-all duration-150"></div>
+                </div>
+                <!-- Frequency domain labels -->
+                <div class="flex justify-between items-center z-10">
+                  <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant">SUB 20Hz</span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-secondary">MID 2.4kHz</span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-primary">AIR 48kHz</span>
+                </div>
+              </div>
+
+              <!-- Interactive Acoustic DSP Profile Pill Tabs -->
+              <div class="grid grid-cols-3 gap-space-xs" id="dspModeSelector">
+                <button class="dsp-mode-btn active flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container-highest ring-1 ring-secondary/50 text-center transition-all" data-dsp="hrtf" type="button">
+                  <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase">HRTF V3</span>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-0.5">Binaural Map</span>
+                </button>
+                <button class="dsp-mode-btn flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-center transition-all" data-dsp="zerolag" type="button">
+                  <span class="font-spec-code-sm text-spec-code-sm text-primary uppercase">Zero-Lag</span>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-0.5">&lt; 1.2ms UWB</span>
+                </button>
+                <button class="dsp-mode-btn flex flex-col items-center justify-center p-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-center transition-all" data-dsp="atmos" type="button">
+                  <span class="font-spec-code-sm text-spec-code-sm text-on-surface uppercase">Dolby Atmos</span>
+                  <span class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-0.5">Certified</span>
+                </button>
+              </div>
+            </section>
+
+            <!-- Technical Telemetry & Specifications Drawer -->
+            <section class="w-full rounded-xl bg-surface-container-low shadow-xl overflow-hidden hairline-border">
+              <!-- Header trigger -->
+              <button class="w-full p-space-md flex items-center justify-between bg-surface-container-low hover:bg-surface-container transition-colors" id="specsAccordionToggle">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-primary text-[20px]">science</span>
+                  <span class="font-headline-sm text-headline-sm text-on-surface">Acoustic Specifications</span>
+                </div>
+                <span class="material-symbols-outlined text-on-surface-variant transition-transform duration-300" id="specsChevron">expand_more</span>
+              </button>
+              <!-- Collapsible Spec Grid Content -->
+              <div class="flex flex-col px-space-md pb-space-md gap-space-sm" id="specsContent">
+                <div class="grid grid-cols-2 gap-space-sm">
+                  <!-- Spec Card 1: Mass -->
+                  <div class="p-3 rounded-lg bg-surface-container flex flex-col justify-between">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Acoustic Mass</span>
+                    <div class="flex items-baseline gap-1 mt-1">
+                      <span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface" id="studioSpecMass">310</span>
+                      <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase">Grams</span>
+                    </div>
+                    <span class="font-spec-code-sm text-spec-code-sm text-outline mt-1">Balanced 50/50 Apex</span>
+                  </div>
+                  <!-- Spec Card 2: Endurance -->
+                  <div class="p-3 rounded-lg bg-surface-container flex flex-col justify-between">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Continuous Play</span>
+                    <div class="flex items-baseline gap-1 mt-1">
+                      <span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">48</span>
+                      <span class="font-spec-code-sm text-spec-code-sm text-primary-fixed-dim uppercase">Hours</span>
+                    </div>
+                    <span class="font-spec-code-sm text-spec-code-sm text-outline mt-1">USB-C GaN Fast Charge</span>
+                  </div>
+                  <!-- Spec Card 3: Codec Stream -->
+                  <div class="p-3 rounded-lg bg-surface-container flex flex-col justify-between">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Transmission</span>
+                    <div class="flex flex-col mt-1">
+                      <span class="font-headline-sm text-headline-sm text-on-surface leading-tight">BT 5.4</span>
+                      <span class="font-spec-code-sm text-spec-code-sm text-secondary">aptX Lossless</span>
+                    </div>
+                    <span class="font-spec-code-sm text-spec-code-sm text-outline mt-1">LE Audio &amp; LC3 Codec</span>
+                  </div>
+                  <!-- Spec Card 4: Bandwidth -->
+                  <div class="p-3 rounded-lg bg-surface-container flex flex-col justify-between">
+                    <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Bandwidth Span</span>
+                    <div class="flex flex-col mt-1">
+                      <span class="font-headline-sm text-headline-sm text-on-surface leading-tight">4Hz - 48k</span>
+                      <span class="font-spec-code-sm text-spec-code-sm text-primary">Sub-Ultrasonic</span>
+                    </div>
+                    <span class="font-spec-code-sm text-spec-code-sm text-outline mt-1">0.05% THD @ 1kHz</span>
+                  </div>
+                </div>
+                <!-- Micro Hardware Blueprint detail -->
+                <div class="w-full p-3 rounded-lg bg-surface-container-highest flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px] text-secondary">architecture</span>
+                    <span class="font-spec-code-sm text-spec-code-sm text-on-surface uppercase">Acoustic Seal: Cryo-Treated Titanium Screws</span>
+                  </div>
+                  <span class="font-spec-code-sm text-spec-code-sm text-primary uppercase">MIL-SPEC</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- Sticky Bottom Hardware Customizer CTA Bar -->
+        <section class="sticky bottom-20 w-full rounded-full bg-surface-container-lowest/90 backdrop-blur-xl p-2 px-4 shadow-[0_10px_30px_rgba(0,0,0,0.9)] flex items-center justify-between z-30 hairline-border">
+          <div class="flex flex-col">
+            <span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider" id="studioProductTitle">AURA ONE Flagship</span>
+            <div class="flex items-baseline gap-1">
+              <span class="font-headline-sm text-headline-sm text-on-surface font-semibold" id="studioProductPrice">$890</span>
+              <span class="font-spec-code-sm text-spec-code-sm text-outline uppercase">USD</span>
+            </div>
+          </div>
+          <button class="flex items-center gap-2 px-5 py-3 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-body-md font-semibold hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(212,175,55,0.35)]" id="studioConfigureSoundBtn" type="button">
+            <span>Configure Sound</span>
+            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+          </button>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 3: CUSTOMIZER (Atelier Configurator Mark IV)                 -->
+    <!-- =================================================================== -->
+    <main class="view-section flex-col relative w-full pt-4 pb-28 bg-surface flex-1" id="view-customizer">
+      <div class="flex flex-col w-full px-margin pb-6 gap-space-lg">
+
+        <!-- Top Hardware Context Sub-Bar -->
+        <div class="flex items-center justify-between pt-1">
+          <div class="flex flex-col">
+            <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-widest flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+              Interactive Lab // Mark IV
+            </span>
+            <span class="font-headline-sm text-headline-sm text-on-surface">Atelier Configurator</span>
+          </div>
+          <div class="flex items-center gap-space-xs bg-surface-container-high px-3 py-1.5 rounded-full shadow-sm">
+            <span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+            <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant font-medium" id="bespokeSerialBadge">Bespoke #089</span>
+          </div>
+        </div>
+
+        <div class="responsive-two-col flex flex-col gap-space-lg">
+          <!-- Dynamic Hardware Viewport Chamber -->
+          <div class="relative w-full rounded-xl bg-surface-container-lowest overflow-hidden shadow-2xl p-space-md flex flex-col items-center hairline-border">
+            <!-- Viewport Atmospheric Lighting (Soft radial background behind unit) -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(0,238,252,0.12),transparent_70%)] pointer-events-none transition-all duration-700" id="viewport-glow"></div>
+
+            <!-- Status Telemetry HUD overlay -->
+            <div class="w-full flex items-center justify-between z-10">
+              <div class="flex items-center gap-2 bg-surface-container-high/90 backdrop-blur-md px-2.5 py-1 rounded-full shadow-sm">
+                <span class="material-symbols-outlined text-secondary text-[16px]">spatial_audio_off</span>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface uppercase tracking-wider" id="current-driver-mode">Dynamic 50mm Biocellulose</span>
+              </div>
+              <button aria-label="Rotate Viewport Angle" class="w-8 h-8 rounded-full bg-surface-container-high/80 hover:bg-surface-container-highest backdrop-blur-md flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-transform active:rotate-180" id="toggle-angle-btn" title="Flip / Rotate Hardware View">
+                <span class="material-symbols-outlined text-[18px]">360</span>
+              </button>
+            </div>
+
+            <!-- Product Visual Representation with Live Material and Engraving Overlay -->
+            <div class="relative w-full max-w-[280px] h-[260px] my-2 flex items-center justify-center select-none cursor-grab active:cursor-grabbing" id="customizerDragStage">
+              <!-- Main dynamic headphone image placeholder with switching finish states -->
+              <img class="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.85)] transition-all duration-500 transform hover:scale-[1.02] pointer-events-none" id="headphone-render" alt="AURA ONE Customizer Preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkWzRGBrLI90Buc5UZZtQYt5hsEbQ2cOOwsGOvCucWcurhP3LFU9BkZE1e-pYW5AnLnAL3nRPkFqRX0bSd9TbLFQVdKzMPLgdSDbesX2Zx2CJOnrP5RTwX4bua8J9TSgPE0sjcOIOfNMCXZhrrNGvmYOBanNMUzrhBXfEjQTHBxR5F249-BF2dPaHEoJMSadzTUJPCnT4ot6_TQJ3wtpWqbq3OisPOmc6EqiwZsPY"/>
+
+              <!-- Live Simulated Laser Engraving Pin on Metal Hinge Assembly -->
+              <div class="absolute top-[48%] right-[18%] z-20 flex flex-col items-center pointer-events-none transform -rotate-12">
+                <div class="relative px-2 py-0.5 rounded bg-surface-container-lowest/85 backdrop-blur-xs shadow-md shadow-black/60 hairline-gold">
+                  <span class="font-spec-code-sm text-[9px] leading-tight tracking-[0.2em] text-primary uppercase font-bold drop-shadow-[0_0_4px_rgba(242,202,80,0.6)]" id="engraving-live-preview">STUDIO MASTER 01</span>
+                </div>
+                <div class="flex items-center gap-1 mt-0.5">
+                  <span class="w-1 h-1 rounded-full bg-primary animate-pulse"></span>
+                  <span class="font-label-caps text-[8px] tracking-wider text-outline uppercase">Laser Etch</span>
+                </div>
+              </div>
+
+              <!-- Real-time dynamic sound curve mini sparkline overlay -->
+              <div class="absolute bottom-1 left-2 z-10 bg-surface-container/90 backdrop-blur-md px-2.5 py-1 rounded-lg shadow-md flex items-center gap-2">
+                <svg class="w-16 h-4 text-secondary" fill="none" viewBox="0 0 64 16">
+                  <path d="M 0 8 Q 16 2, 32 8 T 64 6" fill="none" id="sparkline-path" stroke="currentColor" stroke-linecap="round" stroke-width="1.75"></path>
+                </svg>
+                <span class="font-spec-code-sm text-[10px] text-secondary font-medium tracking-tight" id="tuning-label-badge">REFERENCE</span>
+              </div>
+            </div>
+
+            <!-- 360 Axis Angle Drag Track Indicator -->
+            <div class="w-full flex items-center justify-between text-on-surface-variant z-10 pt-1">
+              <span class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider text-outline" id="customizerGimbalLabel">Gimbal: 42° Azimuth</span>
+              <div class="flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface">Calibrated 1:1</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-space-lg">
+            <!-- Step 1: Housing Metallurgy & Finish -->
+            <div class="flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-xl shadow-md hairline-border">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-5 h-5 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-spec-code-sm text-spec-code-sm font-semibold">1</span>
+                  <span class="font-headline-sm text-[17px] text-on-surface">Housing Finish</span>
+                </div>
+                <span class="font-spec-code-sm text-spec-code-sm text-primary uppercase" id="selected-finish-name">Matte Obsidian</span>
+              </div>
+              <div class="grid grid-cols-2 gap-space-sm pt-1" id="finish-selector-group">
+                <!-- Option 1: Obsidian (Default) -->
+                <button class="finish-btn group relative flex items-center gap-3 p-2.5 rounded-lg bg-surface-container-high transition-all text-left shadow-sm ring-1 ring-primary/40" data-filter="none" data-finish-name="Matte Obsidian" data-finish-price="0" data-finish-vault="Matte Obsidian Titanium" data-glow="rgba(0,238,252,0.12)" type="button">
+                  <div class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-inner relative overflow-hidden">
+                    <div class="w-6 h-6 rounded-full bg-surface-container-highest"></div>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-body-sm text-body-sm font-medium text-on-surface truncate">Obsidian Titanium</span>
+                    <span class="font-spec-code-sm text-spec-code-sm text-outline tracking-tight">Included</span>
+                  </div>
+                  <span class="material-symbols-outlined check-icon absolute top-2 right-2 text-primary text-[16px]">check_circle</span>
+                </button>
+                <!-- Option 2: Champagne Bronze (+ $60) -->
+                <button class="finish-btn group relative flex items-center gap-3 p-2.5 rounded-lg bg-surface-container transition-all text-left shadow-sm opacity-80 hover:opacity-100" data-filter="sepia(0.45) saturate(1.6) brightness(1.06)" data-finish-name="Champagne Bronze" data-finish-price="60" data-finish-vault="Brushed Champagne Bronze" data-glow="rgba(212,175,55,0.25)" type="button">
+                  <div class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-inner relative overflow-hidden">
+                    <div class="w-6 h-6 rounded-full bg-primary-container"></div>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-body-sm text-body-sm font-medium text-on-surface truncate">Brushed Bronze</span>
+                    <span class="font-spec-code-sm text-spec-code-sm text-primary font-semibold">+$60</span>
+                  </div>
+                  <span class="material-symbols-outlined check-icon hidden absolute top-2 right-2 text-primary text-[16px]">check_circle</span>
+                </button>
+                <!-- Option 3: Forged Carbon (+ $120) -->
+                <button class="finish-btn group relative flex items-center gap-3 p-2.5 rounded-lg bg-surface-container transition-all text-left shadow-sm opacity-80 hover:opacity-100" data-filter="contrast(1.18) brightness(0.95) hue-rotate(175deg)" data-finish-name="Forged Carbon" data-finish-price="120" data-finish-vault="Forged Carbon Weave" data-glow="rgba(125,244,255,0.22)" type="button">
+                  <div class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-inner relative overflow-hidden">
+                    <div class="w-6 h-6 rounded-full bg-surface-bright flex items-center justify-center">
+                      <span class="material-symbols-outlined text-[12px] text-tertiary">grain</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-body-sm text-body-sm font-medium text-on-surface truncate">Forged Carbon</span>
+                    <span class="font-spec-code-sm text-spec-code-sm text-primary font-semibold">+$120</span>
+                  </div>
+                  <span class="material-symbols-outlined check-icon hidden absolute top-2 right-2 text-primary text-[16px]">check_circle</span>
+                </button>
+                <!-- Option 4: Pure Ceramic Pearl (+ $90) -->
+                <button class="finish-btn group relative flex items-center gap-3 p-2.5 rounded-lg bg-surface-container transition-all text-left shadow-sm opacity-80 hover:opacity-100" data-filter="brightness(1.28) contrast(1.05) saturate(0.7)" data-finish-name="Ceramic Pearl" data-finish-price="90" data-finish-vault="Pure Ceramic Pearl" data-glow="rgba(211,251,255,0.28)" type="button">
+                  <div class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-inner relative overflow-hidden">
+                    <div class="w-6 h-6 rounded-full bg-tertiary-fixed"></div>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-body-sm text-body-sm font-medium text-on-surface truncate">Ceramic Pearl</span>
+                    <span class="font-spec-code-sm text-spec-code-sm text-primary font-semibold">+$90</span>
+                  </div>
+                  <span class="material-symbols-outlined check-icon hidden absolute top-2 right-2 text-primary text-[16px]">check_circle</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Ear Cushion & Headband Material -->
+            <div class="flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-xl shadow-md hairline-border">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-5 h-5 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-spec-code-sm text-spec-code-sm font-semibold">2</span>
+                  <span class="font-headline-sm text-[17px] text-on-surface">Cushion &amp; Headband</span>
+                </div>
+                <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase" id="selected-cushion-badge">Acoustic Seal 98%</span>
+              </div>
+              <!-- Cushion Choice Pills -->
+              <div class="flex flex-col gap-2 pt-1" id="cushion-selector-group">
+                <!-- Choice 1 -->
+                <button class="cushion-btn w-full p-3 rounded-lg bg-surface-container-high flex items-center justify-between text-left transition-colors shadow-sm" data-cushion-full="Italian Calfskin Leather" data-cushion-type="Calfskin Leather" type="button">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary-container">
+                      <span class="material-symbols-outlined text-[18px]">texture</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-body-md text-body-md font-medium text-on-surface">Italian Calfskin Leather</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Maximum passive isolation &amp; dense acoustic chamber seal</span>
+                    </div>
+                  </div>
+                  <span class="cushion-radio w-4 h-4 rounded-full bg-primary flex items-center justify-center shrink-0">
+                    <span class="w-1.5 h-1.5 rounded-full bg-on-primary"></span>
+                  </span>
+                </button>
+                <!-- Choice 2 -->
+                <button class="cushion-btn w-full p-3 rounded-lg bg-surface-container flex items-center justify-between text-left transition-colors shadow-sm opacity-80 hover:opacity-100" data-cushion-full="Alcantara Track Suede" data-cushion-type="Alcantara Suede" type="button">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary">
+                      <span class="material-symbols-outlined text-[18px]">filter_vintage</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-body-md text-body-md font-medium text-on-surface">Alcantara Track Suede</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Soft micro-suede, ideal for extended 8+ hour studio mastering</span>
+                    </div>
+                  </div>
+                  <span class="cushion-radio w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0"></span>
+                </button>
+                <!-- Choice 3 -->
+                <button class="cushion-btn w-full p-3 rounded-lg bg-surface-container flex items-center justify-between text-left transition-colors shadow-sm opacity-80 hover:opacity-100" data-cushion-full="Cooling Breathable Knit" data-cushion-type="Cooling Knit" type="button">
+                  <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary">
+                      <span class="material-symbols-outlined text-[18px]">air</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-body-md text-body-md font-medium text-on-surface">Cooling Breathable Knit</span>
+                      <span class="font-body-sm text-body-sm text-on-surface-variant">Internal hydrogel layer with ventilated spatial open-weave</span>
+                    </div>
+                  </div>
+                  <span class="cushion-radio w-4 h-4 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Precision Laser Engraving -->
+        <div class="flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-xl shadow-md hairline-border">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-spec-code-sm text-spec-code-sm font-semibold">3</span>
+              <span class="font-headline-sm text-[17px] text-on-surface">Laser Monogram</span>
+            </div>
+            <span class="font-spec-code-sm text-spec-code-sm text-outline tracking-wider">CHAMBER HINGE</span>
+          </div>
+          <div class="flex flex-col gap-2 pt-1">
+            <div class="relative w-full">
+              <input class="w-full bg-surface-container-lowest text-primary font-spec-code-sm text-spec-code-sm tracking-widest px-4 py-3 rounded-lg placeholder-outline focus:outline-none focus:ring-1 focus:ring-primary/50 shadow-inner uppercase" id="engraving-input" maxlength="16" placeholder="ENTER CALLSIGN OR NAME" type="text" value="STUDIO MASTER 01"/>
+              <div class="absolute right-3 top-3 flex items-center gap-1.5 text-on-surface-variant">
+                <span class="material-symbols-outlined text-[16px] text-primary">precision_manufacturing</span>
+                <span class="font-spec-code-sm text-[10px] text-outline" id="char-counter">16/16</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between px-1">
+              <span class="font-body-sm text-[12px] text-on-surface-variant">Sub-micron fiber laser etching on left titanium pivot arm</span>
+              <span class="font-spec-code-sm text-[11px] text-secondary">Free Bespoke Gift</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Sound Signature Profile Preset -->
+        <div class="flex flex-col gap-space-sm bg-surface-container-low p-space-md rounded-xl shadow-md hairline-border" id="customizerAcousticSection">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-surface-container-highest text-primary flex items-center justify-center font-spec-code-sm text-spec-code-sm font-semibold">4</span>
+              <span class="font-headline-sm text-[17px] text-on-surface">Acoustic Signature</span>
+            </div>
+            <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase">DSP Bi-Amp Calibrated</span>
+          </div>
+          <!-- 4 Sound Profile Tiles -->
+          <div class="grid grid-cols-2 gap-space-sm pt-1" id="sound-profile-group">
+            <!-- Profile 1: Reference Flat -->
+            <button class="profile-btn p-3 rounded-lg bg-surface-container-high flex flex-col gap-2 text-left shadow-sm transition-all ring-1 ring-secondary/40" data-driver-mode="Dynamic 50mm Biocellulose" data-profile-full="Reference Flat (±0.5dB)" data-profile-title="REFERENCE" data-sparkline="M 0 8 Q 16 2, 32 8 T 64 6" type="button">
+              <div class="flex items-center justify-between w-full">
+                <span class="font-headline-sm text-[15px] text-on-surface font-semibold">Reference Flat</span>
+                <span class="material-symbols-outlined text-secondary text-[16px]">graphic_eq</span>
+              </div>
+              <span class="font-body-sm text-[12px] text-on-surface-variant leading-snug">0dB linear parity. Studio mixing &amp; audio engineers.</span>
+            </button>
+            <!-- Profile 2: Warm Spatial -->
+            <button class="profile-btn p-3 rounded-lg bg-surface-container flex flex-col gap-2 text-left shadow-sm opacity-80 hover:opacity-100 transition-all" data-driver-mode="Harmonic Tube-Stage DSP" data-profile-full="Warm Spatial (+2.5dB Mid)" data-profile-title="WARM SPATIAL" data-sparkline="M 0 10 Q 16 4, 32 6 T 64 2" type="button">
+              <div class="flex items-center justify-between w-full">
+                <span class="font-headline-sm text-[15px] text-on-surface font-semibold">Warm Spatial</span>
+                <span class="material-symbols-outlined text-primary text-[16px]">surround_sound</span>
+              </div>
+              <span class="font-body-sm text-[12px] text-on-surface-variant leading-snug">Velvety midrange resonance. Cinema &amp; analog vinyl.</span>
+            </button>
+            <!-- Profile 3: Concert Hall Live -->
+            <button class="profile-btn p-3 rounded-lg bg-surface-container flex flex-col gap-2 text-left shadow-sm opacity-80 hover:opacity-100 transition-all" data-driver-mode="360° Binaural Crossfeed" data-profile-full="Concert Live (3D Stage)" data-profile-title="CONCERT HALL" data-sparkline="M 0 7 Q 16 12, 32 4 T 64 8" type="button">
+              <div class="flex items-center justify-between w-full">
+                <span class="font-headline-sm text-[15px] text-on-surface font-semibold">Concert Live</span>
+                <span class="material-symbols-outlined text-tertiary text-[16px]">theater_comedy</span>
+              </div>
+              <span class="font-body-sm text-[12px] text-on-surface-variant leading-snug">Expansive soundstage depth, natural harmonic decay.</span>
+            </button>
+            <!-- Profile 4: Bass Extender -->
+            <button class="profile-btn p-3 rounded-lg bg-surface-container flex flex-col gap-2 text-left shadow-sm opacity-80 hover:opacity-100 transition-all" data-driver-mode="Sub-5Hz Isobaric Boost" data-profile-full="Bass Extender (+6dB Sub)" data-profile-title="BASS EXTENDER" data-sparkline="M 0 2 Q 16 14, 32 8 T 64 12" type="button">
+              <div class="flex items-center justify-between w-full">
+                <span class="font-headline-sm text-[15px] text-on-surface font-semibold">Bass Extender</span>
+                <span class="material-symbols-outlined text-secondary text-[16px]">speaker</span>
+              </div>
+              <span class="font-body-sm text-[12px] text-on-surface-variant leading-snug">+6dB clean sub-bass punch down to 5Hz without distortion.</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Real-Time Spec & Price Calculation Matrix -->
+        <div class="flex flex-col gap-space-sm bg-surface-container-high/90 backdrop-blur-md p-space-md rounded-xl shadow-xl hairline-border">
+          <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase tracking-wider">Atelier Build Valuation</span>
+          <div class="flex flex-col gap-1.5">
+            <div class="flex justify-between items-center text-body-sm font-body-sm">
+              <span class="text-on-surface" id="customizerBaseModelLabel">AURA Mark IV Acoustic Chassis</span>
+              <span class="font-spec-code-sm text-on-surface font-medium" id="customizerBasePriceVal">$890</span>
+            </div>
+            <div class="flex justify-between items-center text-body-sm font-body-sm">
+              <span class="text-on-surface-variant" id="finish-price-desc">Matte Obsidian Finish</span>
+              <span class="font-spec-code-sm text-primary font-medium" id="finish-price-val">$0</span>
+            </div>
+            <div class="flex justify-between items-center text-body-sm font-body-sm">
+              <span class="text-on-surface-variant">Fiber Laser Engraving Service</span>
+              <span class="font-spec-code-sm text-secondary font-medium tracking-wide">COMPLIMENTARY</span>
+            </div>
+          </div>
+          <div class="h-0.5 w-full bg-surface-container-highest my-1"></div>
+          <div class="flex items-end justify-between">
+            <div class="flex flex-col">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total Investment</span>
+              <div class="flex items-baseline gap-1">
+                <span class="font-display-hero-mobile text-display-hero-mobile text-on-surface tracking-tight" id="total-price-display">$890</span>
+                <span class="font-spec-code-sm text-spec-code-sm text-outline">USD</span>
+              </div>
+            </div>
+            <!-- Lead Time Indicator -->
+            <div class="flex items-center gap-1.5 bg-surface-container-lowest px-3 py-1.5 rounded-full shadow-inner">
+              <span class="material-symbols-outlined text-secondary text-[14px]">timer</span>
+              <span class="font-spec-code-sm text-[11px] text-on-surface-variant font-medium">3-5 Day Crafting</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Primary Action Container & Haptic Confirmation -->
+        <div class="flex flex-col gap-2 pt-1">
+          <button class="w-full py-4 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-[17px] font-semibold flex items-center justify-center gap-2 shadow-[0_0_24px_rgba(212,175,55,0.3)] hover:brightness-110 active:scale-[0.98] transition-all" id="order-cta-btn" type="button">
+            <span class="material-symbols-outlined text-[20px]">lock</span>
+            <span>Save Build to Vault &amp; Order</span>
+          </button>
+          <div class="flex items-center justify-center gap-2 text-center text-on-surface-variant">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            <span class="font-body-sm text-[12px]">Individually hand-tuned by Senior Acoustic Master in Geneva</span>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 4: VAULT / CART (Secured Allocation & Bespoke Checkout)      -->
+    <!-- =================================================================== -->
+    <main class="view-section flex-col relative w-full pt-2 pb-28 bg-surface flex-1" id="view-vault-cart">
+      <div class="flex flex-col w-full pb-10">
+
+        <!-- Top Vault Status Banner -->
+        <div class="px-margin pt-4 pb-2">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col">
+              <span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Secured Allocation</span>
+              <h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight mt-0.5">Your Acoustic Vault</h1>
+            </div>
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high shadow-inner">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase" id="vaultSavedCountText">1 Master Saved</span>
+            </div>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Bespoke build slot reserved for <span class="font-spec-code-sm text-spec-code-sm text-secondary" id="countdown-timer">14:59</span></p>
+        </div>
+
+        <!-- Primary Bespoke Hardware Card -->
+        <div class="px-margin mt-3">
+          <div class="relative bg-surface-container rounded-xl p-space-md shadow-xl overflow-hidden hairline-border">
+            <!-- Glow ambient accent -->
+            <div class="absolute -top-12 -right-12 w-40 h-40 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <!-- Item Meta Header -->
+            <div class="flex items-start justify-between gap-2 relative z-10">
+              <div>
+                <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-widest">Handcrafted In Munich</span>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface mt-0.5" id="vaultProductTitle">AURA ONE</h2>
+                <p class="font-body-sm text-body-sm text-primary" id="vaultEditionSubtitle">Custom Master Edition</p>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight" id="vaultBespokePrice">$1,010</span>
+                <span class="block font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">VAT Included</span>
+              </div>
+            </div>
+
+            <!-- Interactive 3D Rotation Preview Chamber -->
+            <div class="relative mt-4 rounded-lg bg-surface-container-lowest overflow-hidden shadow-inner flex flex-col items-center justify-center p-3 group select-none cursor-grab active:cursor-grabbing" id="rotator-chamber">
+              <div class="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high/80 backdrop-blur-md">
+                <span class="material-symbols-outlined text-[14px] text-secondary">360</span>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface uppercase">Drag to Inspect</span>
+              </div>
+              <div class="absolute top-2.5 right-2.5 z-20">
+                <span class="font-spec-code-sm text-spec-code-sm px-2 py-0.5 rounded-full bg-surface-container-high/80 backdrop-blur-md text-primary" id="angle-readout">0° AXIS</span>
+              </div>
+              <!-- 3D Rotation Visualizer with dynamic frame shifting -->
+              <div class="relative w-full h-44 flex items-center justify-center py-2 transition-transform duration-75" id="product-viewport">
+                <img class="w-full h-full object-contain filter drop-shadow-[0_15px_25px_rgba(0,0,0,0.9)] pointer-events-none transition-transform duration-200" id="rotator-img" alt="Bespoke Vault Hardware" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAclOeRTM25Q0g902FYvXfetdBX8pW_OI0kam1KzBLDUqAQuQROQasvyG-1wuYc9qE4UCMIuiBmNb_igsye-3D-kqbVBVmkeA9Knzg-oEJYyLjBh3QcZ_taBTCSgc95Wnh9WP2Ld-OHq2ko29F8FIIS5sRrbBO15WgncKFT923Zrv5xM28uPBaCzVTr4COFMLS4LDY46jzkffXSSwGeupQwazWo5bWmIofs3qr_rlU"/>
+                <div class="absolute bottom-1 w-3/4 h-3 rounded-full bg-surface-container-high/40 blur-xs"></div>
+              </div>
+              <div class="w-full flex items-center justify-between pt-1 z-10">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">CNC Milled Chassis</span>
+                </div>
+                <button class="inline-flex items-center gap-1 font-spec-code-sm text-spec-code-sm text-primary hover:text-primary-fixed transition-colors" id="vaultEditConfigBtn" type="button">
+                  <span>Edit Configuration</span>
+                  <span class="material-symbols-outlined text-[14px]">tune</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Config Summary Specs Deck -->
+            <div class="mt-4 pt-3 space-y-2.5">
+              <div class="flex items-center justify-between py-1.5 bg-surface-container-high/40 px-3 rounded-lg">
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Acoustic Shell</span>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-surface-bright" id="vaultShellDot"></span>
+                  <span class="font-body-sm text-body-sm text-on-surface font-medium" id="vaultShellText">Forged Carbon Weave</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between py-1.5 bg-surface-container-high/40 px-3 rounded-lg">
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Ear Cushions</span>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+                  <span class="font-body-sm text-body-sm text-on-surface font-medium" id="vaultCushionText">Italian Calfskin Leather</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between py-1.5 bg-surface-container-high/40 px-3 rounded-lg">
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Laser Engraving</span>
+                <span class="font-spec-code-sm text-spec-code-sm text-primary font-semibold tracking-wider" id="vaultEngravingText">"STUDIO MASTER 01"</span>
+              </div>
+              <div class="flex items-center justify-between py-1.5 bg-surface-container-high/40 px-3 rounded-lg">
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Transducer Profile</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-secondary text-[16px]">graphic_eq</span>
+                  <span class="font-body-sm text-body-sm text-on-surface font-medium" id="vaultProfileText">Reference Flat (±0.5dB)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Curated Hardware Added to Vault (Dynamic container) -->
+        <div class="px-margin mt-4 space-y-3 hidden" id="vaultAdditionalHardwareList"></div>
+
+        <!-- Complementary Studio Gear Section -->
+        <div class="px-margin mt-7">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Mastering Deck</span>
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">Complementary Gear</h3>
+            </div>
+            <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Co-engineered</span>
+          </div>
+          <!-- Horizontal Snap Carousel for accessories -->
+          <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x -mx-margin px-margin">
+            <!-- Accessory Item 1 -->
+            <div class="min-w-[230px] max-w-[230px] snap-start bg-surface-container-low rounded-xl p-3.5 flex flex-col justify-between shadow-md relative hairline-border">
+              <div>
+                <div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden relative mb-2.5">
+                  <img class="w-full h-full object-cover" alt="Magnetic Charging Stand" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuna2rySAj9o8ephA5gjoxsJu-RxicKrAKx0LjM5jG3RafYzZJP0jSPphQyop3hC7O3zFFEfQwlbsn-b_o1TJfUJGZYeP1Lw_xrMlhfhT5OKW1X8yHfzWwuCgNtUd8TrDJSdDMSj1DDZRrtjDKZYuDaXMfl0RXiBcYOdoD6S1_pl05m6qukAXJr4oe3Y3MJEcj4Bc7yDzdzAn8dwEARdq6dxN0-ycwfZpwS7KPQYM"/>
+                  <span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-highest/90 font-spec-code-sm text-spec-code-sm text-on-surface">Qi2 Fast</span>
+                </div>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Machined Stand</span>
+                <h4 class="font-body-md text-body-md text-on-surface font-medium line-clamp-1 mt-0.5">Magnetic Charging Stand</h4>
+                <p class="font-body-sm text-body-sm text-on-surface-variant text-xs mt-0.5">Inductive float cradle with auto-sleep</p>
+              </div>
+              <div class="flex items-center justify-between mt-3 pt-2">
+                <span class="font-spec-code-lg text-spec-code-lg text-on-surface font-semibold">$149</span>
+                <button aria-label="Add Magnetic Charging Stand" class="accessory-btn flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-on-surface hover:bg-primary-container hover:text-on-primary-container transition-all" data-id="acc-stand" data-price="149" data-title="Magnetic Charging Stand" type="button">
+                  <span class="material-symbols-outlined text-[18px]">add</span>
+                </button>
+              </div>
+            </div>
+            <!-- Accessory Item 2 -->
+            <div class="min-w-[230px] max-w-[230px] snap-start bg-surface-container-low rounded-xl p-3.5 flex flex-col justify-between shadow-md relative hairline-border">
+              <div>
+                <div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden relative mb-2.5">
+                  <img class="w-full h-full object-cover" alt="Braided 4.4mm Cable" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA59ovcRaLOXj1vGtLI78Hnl6FDkewUfxsDEo14J28gczJXGIYRCRoMtKh-HzOVAr1Peve_LNwtTFApTvGWCfPw7eTg-qNZlQ5rJXCNKQObVvuJ4_-DBMtpqsru8WnyzLop1fGeIQffaFVL_FRdaK0ehhr8g4IYK30amhNSl5lv2Ea9ptEaAmw5qczSKM__V1y5eEpKcxyo9ckr66HlCaWZrbGYboNsydrKm-PsQS4"/>
+                  <span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-highest/90 font-spec-code-sm text-spec-code-sm text-secondary">Balanced</span>
+                </div>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Silver Metallurgy</span>
+                <h4 class="font-body-md text-body-md text-on-surface font-medium line-clamp-1 mt-0.5">Braided 4.4mm Cable</h4>
+                <p class="font-body-sm text-body-sm text-on-surface-variant text-xs mt-0.5">OCC Silver-plated 8-core, 1.8m</p>
+              </div>
+              <div class="flex items-center justify-between mt-3 pt-2">
+                <span class="font-spec-code-lg text-spec-code-lg text-on-surface font-semibold">$180</span>
+                <button aria-label="Add Braided 4.4mm Cable" class="accessory-btn flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-on-surface hover:bg-primary-container hover:text-on-primary-container transition-all" data-id="acc-cable" data-price="180" data-title="Braided 4.4mm Cable" type="button">
+                  <span class="material-symbols-outlined text-[18px]">add</span>
+                </button>
+              </div>
+            </div>
+            <!-- Accessory Item 3 -->
+            <div class="min-w-[230px] max-w-[230px] snap-start bg-surface-container-low rounded-xl p-3.5 flex flex-col justify-between shadow-md relative hairline-border">
+              <div>
+                <div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden relative mb-2.5">
+                  <img class="w-full h-full object-cover" alt="Walnut &amp; Titanium Case" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_K24r0KOiGD_fYQA3R4QbXvx-vT9m601x0UwLUESHLqJ4wc9EvTLSTnLTeh-bAvo6wPB7Gfwvq8AyjI42D8F7MVpFfUz0ODSUeAfCJ_fUrd1wSrQnNU0a4O3SAuTqTPt6SsSsJazH0E05USASPu7829J7JHCRJWdm7AQal1BMCsFAv_ZkTMYf_lvkSB5sZu6A_sy593IuHwwNMvBfWBsQVTyXjT25scQ7ESiRutU"/>
+                  <span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-surface-container-highest/90 font-spec-code-sm text-spec-code-sm text-primary">Archival</span>
+                </div>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Display Sanctuary</span>
+                <h4 class="font-body-md text-body-md text-on-surface font-medium line-clamp-1 mt-0.5">Walnut &amp; Titanium Case</h4>
+                <p class="font-body-sm text-body-sm text-on-surface-variant text-xs mt-0.5">Humidity controlled chamber</p>
+              </div>
+              <div class="flex items-center justify-between mt-3 pt-2">
+                <span class="font-spec-code-lg text-spec-code-lg text-on-surface font-semibold">$220</span>
+                <button aria-label="Add Walnut Display Case" class="accessory-btn flex items-center justify-center w-8 h-8 rounded-full bg-surface-container-highest text-on-surface hover:bg-primary-container hover:text-on-primary-container transition-all" data-id="acc-case" data-price="220" data-title="Walnut Display Case" type="button">
+                  <span class="material-symbols-outlined text-[18px]">add</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acoustic Care Guarantee Badge Grid -->
+        <div class="px-margin mt-7">
+          <div class="bg-surface-container-low rounded-xl p-space-md shadow-md hairline-border">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+              <h3 class="font-body-md text-body-md text-on-surface font-semibold">AURA Master Commitment</h3>
+            </div>
+            <div class="grid grid-cols-1 gap-3">
+              <div class="flex items-start gap-3 bg-surface-container/50 p-2.5 rounded-lg">
+                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-primary text-[18px]">workspace_premium</span>
+                </div>
+                <div>
+                  <h4 class="font-body-sm text-body-sm text-on-surface font-medium">5-Year Master Warranty</h4>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Direct lab replacement, recalibration, and driver re-matching guaranteed.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 bg-surface-container/50 p-2.5 rounded-lg">
+                <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-secondary text-[18px]">hearing</span>
+                </div>
+                <div>
+                  <h4 class="font-body-sm text-body-sm text-on-surface font-medium">30-Day In-Home Acoustic Trial</h4>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Experience in your personal listening environment. Zero-friction returns.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 bg-surface-container/50 p-2.5 rounded-lg">
+                <div class="w-8 h-8 rounded-full bg-surface-bright flex items-center justify-center shrink-0 mt-0.5">
+                  <span class="material-symbols-outlined text-on-surface text-[18px]">flight_takeoff</span>
+                </div>
+                <div>
+                  <h4 class="font-body-sm text-body-sm text-on-surface font-medium">White-Glove Express Courier</h4>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Insured armored transit from Munich Atelier directly to your hands.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transparent Financial Breakdown Summary -->
+        <div class="px-margin mt-7">
+          <div class="bg-surface-container-high/60 rounded-xl p-space-md shadow-md space-y-2.5 hairline-border">
+            <h3 class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase tracking-wider mb-2">Fiscal Statement</h3>
+            <div class="flex items-center justify-between font-body-sm text-body-sm">
+              <span class="text-on-surface-variant">Bespoke Hardware Subtotal</span>
+              <span class="text-on-surface font-medium" id="subtotal-val">$1,010.00</span>
+            </div>
+            <div class="flex items-center justify-between font-body-sm text-body-sm" id="extra-hardware-row" style="display: none;">
+              <span class="text-on-surface-variant">Curated Edition Hardware</span>
+              <span class="text-on-surface font-medium" id="extra-hardware-val">$0.00</span>
+            </div>
+            <div class="flex items-center justify-between font-body-sm text-body-sm" id="accessories-row" style="display: none;">
+              <span class="text-on-surface-variant">Selected Accessories</span>
+              <span class="text-on-surface font-medium" id="accessories-val">$0.00</span>
+            </div>
+            <div class="flex items-center justify-between font-body-sm text-body-sm">
+              <div class="flex items-center gap-1.5">
+                <span class="text-on-surface-variant">Custom Laser Stamping</span>
+                <span class="px-1.5 py-0.5 rounded bg-surface-container-highest font-spec-code-sm text-spec-code-sm text-primary uppercase text-[10px]">Complimentary</span>
+              </div>
+              <span class="text-primary font-spec-code-sm text-spec-code-sm uppercase">Free</span>
+            </div>
+            <div class="flex items-center justify-between font-body-sm text-body-sm">
+              <div class="flex items-center gap-1.5">
+                <span class="text-on-surface-variant">Global Armored Courier</span>
+                <span class="px-1.5 py-0.5 rounded bg-surface-container-highest font-spec-code-sm text-spec-code-sm text-secondary uppercase text-[10px]">Expedited</span>
+              </div>
+              <span class="text-secondary font-spec-code-sm text-spec-code-sm uppercase">Free</span>
+            </div>
+            <div class="h-px bg-surface-container-highest my-2"></div>
+            <div class="flex items-baseline justify-between pt-1">
+              <div class="flex flex-col">
+                <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Total Investment</span>
+                <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant uppercase">Includes all import duties</span>
+              </div>
+              <div class="text-right">
+                <span class="font-headline-md text-headline-md text-primary font-semibold tracking-tight" id="total-val">$1,010.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkout Floating Hub -->
+        <div class="relative z-20 mt-6 px-margin pb-4">
+          <div class="bg-surface-container-lowest/95 backdrop-blur-2xl rounded-2xl p-3 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.85)] flex flex-col gap-2.5 hairline-border">
+            <!-- Primary Luxury Checkout Action -->
+            <button class="w-full py-3.5 px-6 rounded-full bg-primary-container text-on-primary-container font-headline-sm text-headline-sm flex items-center justify-between shadow-[0_0_24px_rgba(212,175,55,0.3)] hover:scale-[1.01] active:scale-[0.99] transition-all" id="checkout-main-btn" type="button">
+              <span class="font-semibold text-[17px]">Proceed to Checkout</span>
+              <div class="flex items-center gap-2">
+                <span class="font-spec-code-lg text-spec-code-lg font-bold" id="cta-total-val">$1,010</span>
+                <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+              </div>
+            </button>
+
+            <!-- Dedicated Razorpay One-Tap Gateway Action -->
+            <button aria-label="Pay with Razorpay" class="w-full h-11 px-4 rounded-full bg-[#0d1f47] hover:bg-[#132d63] border border-[#3395ff]/40 text-on-surface flex items-center justify-between transition-all shadow-[0_0_18px_rgba(51,149,255,0.2)] active:scale-[0.99]" id="razorpayDirectBtn" type="button">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-[#3395ff]/20 flex items-center justify-center text-[#3395ff]">
+                  <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M14.5 2L6 14h5.5l-2 8L18 10h-5.5l2-8z"/></svg>
+                </span>
+                <span class="font-headline-sm text-[14px] text-white font-semibold tracking-tight">Razorpay</span>
+                <span class="font-spec-code-sm text-[10px] text-[#7df4ff] uppercase px-1.5 py-0.5 rounded bg-[#3395ff]/15">UPI • Cards • Netbanking</span>
+              </div>
+              <span class="font-spec-code-sm text-[11px] text-[#7df4ff] uppercase flex items-center gap-0.5">
+                Instant <span class="material-symbols-outlined text-[14px]">bolt</span>
+              </span>
+            </button>
+
+            <!-- Express One-Tap Alternative -->
+            <div class="grid grid-cols-2 gap-2">
+              <button aria-label="Pay with Apple Pay" class="express-pay-btn h-10 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface flex items-center justify-center gap-1.5 transition-colors" data-method="Apple Pay Biometric Vault" type="button">
+                <svg class="w-4 h-4 fill-current mb-0.5" viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.13-1.9-14.34-6.08-3.69-3.03-7.61-7.82-11.77-14.37-5.16-8.08-9.36-17.45-12.59-28.11-3.23-10.66-4.85-20.75-4.85-30.28 0-11.49 2.86-21.14 8.59-28.95 5.73-7.81 12.98-11.83 21.75-12.06 4.69 0 9.94 1.38 15.75 4.15 5.81 2.77 9.56 4.18 11.25 4.24 1.31 0 5.42-1.64 12.33-4.91 6.91-3.27 12.75-4.67 17.52-4.21 13.23 1.07 23.19 6.27 29.88 15.6-11.85 7.19-17.65 17.25-17.42 30.17.23 10.08 4.02 18.42 11.36 25.03 5.15 4.62 11.19 7.58 18.11 8.88-1.45 4.41-3.13 8.81-5.05 13.21zM119.22 31.02c0 7.91-2.89 15.32-8.66 22.22-6.95 8.13-15.35 12.82-24.47 12.08-.16-.93-.25-1.92-.25-2.97 0-7.59 3.16-15.68 8.81-22.28 2.82-3.27 6.42-6.01 10.81-8.21 4.39-2.2 8.53-3.42 12.42-3.66.23 1.02.34 1.96.34 2.82z"/></svg>
+                <span class="font-body-md text-body-md font-semibold tracking-tight">Pay</span>
+              </button>
+              <button aria-label="Pay with Google Pay" class="express-pay-btn h-10 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-on-surface flex items-center justify-center gap-1.5 transition-colors" data-method="Google Pay Express Passkey" type="button">
+                <span class="font-spec-code-sm text-spec-code-sm uppercase tracking-wider text-on-surface-variant">G Pay Express</span>
+              </button>
+            </div>
+            <!-- Micro Cryptographic Assurance Footer -->
+            <div class="flex items-center justify-center gap-1.5 pt-0.5">
+              <span class="material-symbols-outlined text-[13px] text-secondary">encrypted</span>
+              <span class="font-spec-code-sm text-spec-code-sm text-on-surface-variant tracking-wider uppercase text-[10px]">Razorpay PCI-DSS &amp; 256-Bit Vault Encryption</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- =================================================================== -->
+    <!-- GLOBAL FLOATING PILL NAVIGATION BAR                                 -->
+    <!-- =================================================================== -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 pb-safe pointer-events-none">
+      <div class="mx-auto px-margin pb-3 max-w-md w-full">
+        <div class="pointer-events-auto flex items-center justify-around h-16 rounded-full bg-surface-container-lowest/90 backdrop-blur-2xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.85),0_0_1px_1px_rgba(226,232,240,0.12)] px-2">
+          <button class="nav-tab-btn flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 transition-all gap-0.5 text-primary-container drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]" data-target="discover" type="button">
+            <span class="material-symbols-outlined text-[22px]">album</span>
+            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">Discover</span>
+          </button>
+          <button class="nav-tab-btn flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant hover:text-on-surface transition-all gap-0.5" data-target="3d-studio" type="button">
+            <span class="material-symbols-outlined text-[22px]">view_in_ar</span>
+            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">3D Studio</span>
+          </button>
+          <button class="nav-tab-btn flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant hover:text-on-surface transition-all gap-0.5" data-target="customizer" type="button">
+            <span class="material-symbols-outlined text-[22px]">equalizer</span>
+            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">Customizer</span>
+          </button>
+          <button class="nav-tab-btn relative flex flex-col items-center justify-center min-w-[44px] min-h-[44px] flex-1 text-on-surface-variant hover:text-on-surface transition-all gap-0.5" data-target="vault-cart" type="button">
+            <span class="material-symbols-outlined text-[22px]">shopping_bag</span>
+            <span class="font-spec-code-sm text-spec-code-sm tracking-wider uppercase scale-90">Vault</span>
+            <span class="absolute top-1.5 right-4 min-w-[16px] h-4 px-1 rounded-full bg-primary-container text-on-primary-container font-spec-code-sm text-[9px] font-bold flex items-center justify-center" id="navVaultCountBadge">1</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- =================================================================== -->
+    <!-- GLOBAL TOAST NOTIFICATION CAPSULE                                   -->
+    <!-- =================================================================== -->
+    <div class="fixed bottom-24 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 translate-y-4" id="toast-capsule">
+      <div class="bg-surface-container-lowest/95 backdrop-blur-xl px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2.5 hairline-gold">
+        <span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+        <span class="font-spec-code-sm text-spec-code-sm text-on-surface tracking-wider uppercase whitespace-nowrap" id="toast-text">Hardware Spec Locked</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL 1: PRODUCT QUICK-INSPECT & TELEMETRY SHEET                    -->
+  <!-- =================================================================== -->
+  <div class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden items-end sm:items-center justify-center p-0 sm:p-4" id="productDetailModal">
+    <div class="w-full max-w-md bg-surface-container-low rounded-t-2xl sm:rounded-2xl p-space-md shadow-2xl hairline-border flex flex-col gap-space-md max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest" id="modalProductBadge">40MM EL-STAT</span>
+        <button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="closeProductModalBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+      <div class="w-full h-52 rounded-xl bg-surface-container-lowest overflow-hidden flex items-center justify-center relative">
+        <img alt="" class="w-full h-full object-cover" id="modalProductImg" src=""/>
+      </div>
+      <div>
+        <div class="flex items-baseline justify-between">
+          <h3 class="font-headline-sm text-headline-sm text-on-surface" id="modalProductTitle">AURA Studio Pro</h3>
+          <span class="font-headline-sm text-headline-sm text-primary font-semibold" id="modalProductPrice">$1,150</span>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="modalProductSubtitle">Graphite &amp; Champagne Gold</p>
+        <p class="font-body-sm text-body-sm text-on-surface mt-2 leading-relaxed" id="modalProductDesc"></p>
+      </div>
+      <div class="grid grid-cols-3 gap-2 bg-surface-container p-2.5 rounded-lg text-center">
+        <div>
+          <span class="font-label-caps text-label-caps text-on-surface-variant block">TRANSDUCER</span>
+          <span class="font-spec-code-sm text-spec-code-sm text-secondary mt-0.5 block" id="modalSpecDriver">Planar</span>
+        </div>
+        <div>
+          <span class="font-label-caps text-label-caps text-on-surface-variant block">DISTORTION</span>
+          <span class="font-spec-code-sm text-spec-code-sm text-primary mt-0.5 block" id="modalSpecThd">0.008% THD</span>
+        </div>
+        <div>
+          <span class="font-label-caps text-label-caps text-on-surface-variant block">MASS</span>
+          <span class="font-spec-code-sm text-spec-code-sm text-on-surface mt-0.5 block" id="modalSpecMass">340g</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2.5 pt-1">
+        <button class="py-3 px-4 rounded-full bg-surface-container-highest text-on-surface hover:text-secondary font-body-sm font-medium flex items-center justify-center gap-1.5 transition-colors" id="modalLoad3dBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">view_in_ar</span>
+          <span>Inspect in 3D</span>
+        </button>
+        <button class="py-3 px-4 rounded-full bg-primary-container text-on-primary-container font-body-sm font-semibold flex items-center justify-center gap-1.5 shadow-[0_0_20px_rgba(212,175,55,0.25)] hover:brightness-110 transition-all" id="modalAddToVaultBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+          <span>Add to Vault</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL 2: SEARCH & ACOUSTIC TELEMETRY FILTER DRAWER                  -->
+  <!-- =================================================================== -->
+  <div class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden items-start justify-center p-4 pt-16" id="searchFilterModal">
+    <div class="w-full max-w-md bg-surface-container-low rounded-2xl p-space-md shadow-2xl hairline-border flex flex-col gap-space-md">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+          <span class="font-headline-sm text-[18px] text-on-surface">Acoustic Index &amp; Search</span>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="closeSearchModalBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+      <div class="relative">
+        <input class="w-full bg-surface-container-lowest text-on-surface font-body-sm text-body-sm px-4 py-3 pl-10 rounded-lg placeholder-outline focus:outline-none focus:ring-1 focus:ring-secondary" id="globalSearchInput" placeholder="Search AURA ONE, Planar, IEM, Beryllium..." type="text"/>
+        <span class="material-symbols-outlined text-outline text-[18px] absolute left-3 top-3">search</span>
+      </div>
+      <div class="flex flex-col gap-2 max-h-64 overflow-y-auto" id="globalSearchResults"></div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL 3: AURA ATELIER MEMBER PROFILE & SAVED BOOKMARKS              -->
+  <!-- =================================================================== -->
+  <div class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden items-end sm:items-center justify-center p-0 sm:p-4" id="profileModal">
+    <div class="w-full max-w-md bg-surface-container-low rounded-t-2xl sm:rounded-2xl p-space-md shadow-2xl hairline-border flex flex-col gap-space-md max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img alt="Profile" class="w-11 h-11 rounded-full object-cover ring-2 ring-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1HlMImWLamzjOr7gaYoQAgiYClNRbsBMGgM9a3jKxFf-P0PJFq9j8ZGzsscrztJ642VH2Td1cPaZHohUavyqPO67HtgimFSY-QwPRM7KfRBwsMizAIbk_r_3peSGw_TcNeH8LAwivjimuzSwIzGQPZzBS1ENoe6TIxSD7BnSlC2WO1jvMv5p-JJcNjVaylg7u-8qBk5GfBO2YL5n8oTa4lSahcDJyJ6qI-sy39ao"/>
+          <div>
+            <span class="font-label-caps text-label-caps text-primary uppercase">Geneva Founders Tier</span>
+            <h3 class="font-headline-sm text-[18px] text-on-surface">Atelier Member #089</h3>
+          </div>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="closeProfileModalBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="font-spec-code-sm text-spec-code-sm text-secondary uppercase tracking-wider">Bookmarked Acoustic Editions</span>
+        <div class="flex flex-col gap-2" id="profileBookmarksList"></div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <span class="font-spec-code-sm text-spec-code-sm text-primary uppercase tracking-wider">Dispatched Atelier Orders</span>
+        <div class="flex flex-col gap-2" id="profileOrdersList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL 4: ANECHOIC VAULT CHECKOUT & BESPOKE CERTIFICATE              -->
+  <!-- =================================================================== -->
+  <div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-lg hidden items-end sm:items-center justify-center p-0 sm:p-4" id="checkoutModal">
+    <div class="w-full max-w-md bg-surface-container-low rounded-t-2xl sm:rounded-2xl p-space-md shadow-2xl hairline-gold flex flex-col gap-space-md max-h-[92vh] overflow-y-auto">
+      <!-- Checkout Form View -->
+      <div class="flex flex-col gap-space-md" id="checkoutFormStep">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Razorpay PCI-DSS &amp; 256-Bit Vault</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">Munich Atelier Checkout</h3>
+          </div>
+          <button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface" id="closeCheckoutModalBtn" type="button">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+
+        <form class="flex flex-col gap-3" id="vaultCheckoutForm">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="font-label-caps text-label-caps text-on-surface-variant uppercase block mb-1">Recipient Full Name</label>
+              <input class="w-full bg-surface-container-lowest text-on-surface font-body-sm px-3.5 py-2.5 rounded-lg hairline-border focus:outline-none focus:border-primary" id="checkoutName" required="" type="text" value="Julian Vance"/>
+            </div>
+            <div>
+              <label class="font-label-caps text-label-caps text-on-surface-variant uppercase block mb-1">Mobile / WhatsApp</label>
+              <input class="w-full bg-surface-container-lowest text-on-surface font-body-sm px-3.5 py-2.5 rounded-lg hairline-border focus:outline-none focus:border-primary" id="checkoutPhone" required="" type="tel" value="+91 98765 43210"/>
+            </div>
+          </div>
+          <div>
+            <label class="font-label-caps text-label-caps text-on-surface-variant uppercase block mb-1">Armored Courier Destination</label>
+            <input class="w-full bg-surface-container-lowest text-on-surface font-body-sm px-3.5 py-2.5 rounded-lg hairline-border focus:outline-none focus:border-primary" id="checkoutAddress" required="" type="text" value="Bahnhofstrasse 42, 8001 Zürich / Mumbai"/>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="font-label-caps text-label-caps text-on-surface-variant uppercase block mb-1">Telemetry Email</label>
+              <input class="w-full bg-surface-container-lowest text-on-surface font-body-sm px-3.5 py-2.5 rounded-lg hairline-border focus:outline-none focus:border-primary" id="checkoutEmail" required="" type="email" value="j.vance@atelier.ch"/>
+            </div>
+            <div>
+              <label class="font-label-caps text-label-caps text-on-surface-variant uppercase block mb-1">Billing Currency</label>
+              <select class="w-full bg-surface-container-lowest text-on-surface font-body-sm px-3 py-2.5 rounded-lg hairline-border focus:outline-none focus:border-primary" id="checkoutCurrency">
+                <option value="USD">USD ($) — Global</option>
+                <option value="INR">INR (₹) — India UPI/RuPay</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="font-label-caps text-label-caps text-on-surface-variant uppercase block mb-1">Settlement Gateway</label>
+            <select class="w-full bg-surface-container-lowest text-on-surface font-body-sm px-3 py-2.5 rounded-lg hairline-border focus:outline-none focus:border-primary" id="checkoutMethod">
+              <option value="Razorpay Gateway (UPI / Cards / Netbanking / EMI)">Razorpay Gateway (UPI / Cards / Netbanking / EMI)</option>
+              <option value="Apple Pay Biometric Vault">Apple Pay Biometric Vault</option>
+              <option value="Google Pay Express Passkey">Google Pay Express Passkey</option>
+              <option value="AURA Private Black Card •••• 8841">AURA Private Black Card •••• 8841</option>
+            </select>
+          </div>
+
+          <!-- Optional Merchant Razorpay Key Configurator -->
+          <div class="rounded-lg bg-surface-container p-2.5 hairline-border">
+            <button class="w-full flex items-center justify-between text-left" id="toggleRzpConfigBtn" type="button">
+              <span class="font-spec-code-sm text-[11px] text-[#7df4ff] uppercase flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[15px]">key</span>
+                Razorpay Merchant Key Setup (Optional)
+              </span>
+              <span class="material-symbols-outlined text-[16px] text-on-surface-variant" id="rzpConfigChevron">expand_more</span>
+            </button>
+            <div class="hidden flex-col gap-2 pt-2 mt-2 border-t border-white/5" id="rzpConfigDrawer">
+              <p class="font-body-sm text-[11px] text-on-surface-variant leading-snug">Leave blank to use the built-in interactive Razorpay Gateway, or enter your <code class="text-primary">rzp_test_...</code> / <code class="text-primary">rzp_live_...</code> Key ID to launch your live Razorpay Checkout.js widget.</p>
+              <input class="w-full bg-surface-container-lowest text-primary font-spec-code-sm text-spec-code-sm px-3 py-2 rounded hairline-border focus:outline-none" id="razorpayCustomKeyInput" placeholder="rzp_test_xxxxxxxxxxxxxx" type="text"/>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-surface-container-lowest flex items-center justify-between mt-1">
+            <div>
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase block">Authorized Settlement</span>
+              <span class="font-spec-code-sm text-spec-code-sm text-secondary" id="checkoutSummaryItems">1 Bespoke Master + Gear</span>
+            </div>
+            <span class="font-headline-sm text-headline-sm text-primary font-semibold" id="checkoutModalTotal">$1,010.00</span>
+          </div>
+
+          <button class="w-full py-3.5 rounded-full bg-[#3395ff] hover:bg-[#2384f0] text-white font-headline-sm text-[16px] font-semibold flex items-center justify-center gap-2 shadow-[0_0_24px_rgba(51,149,255,0.4)] active:scale-98 transition-all mt-1" id="checkoutSubmitBtn" type="submit">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M14.5 2L6 14h5.5l-2 8L18 10h-5.5l2-8z"/></svg>
+            <span id="checkoutSubmitBtnText">Pay with Razorpay &amp; Mint Certificate</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Order Confirmed Certificate View -->
+      <div class="hidden flex-col items-center text-center gap-4 py-2" id="checkoutSuccessStep">
+        <div class="w-14 h-14 rounded-full bg-primary/15 hairline-gold flex items-center justify-center text-primary shadow-[0_0_24px_rgba(212,175,55,0.3)]">
+          <span class="material-symbols-outlined text-[30px]">workspace_premium</span>
+        </div>
+        <div>
+          <span class="font-label-caps text-label-caps text-secondary uppercase tracking-widest">Razorpay Verified • Munich Lab Dispatch</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface mt-1">Bespoke Build Commissioned</h3>
+          <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Payment verified via HMAC-SHA256. Your acoustic masterwork is queued for CNC titanium milling.</p>
+        </div>
+
+        <div class="w-full p-3.5 rounded-xl bg-surface-container-lowest text-left space-y-2 hairline-border font-spec-code-sm text-spec-code-sm">
+          <div class="flex justify-between">
+            <span class="text-outline">CERTIFICATE ID:</span>
+            <span class="text-primary" id="certOrderId">AURA-2026-089X</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-outline">RZP ORDER ID:</span>
+            <span class="text-secondary" id="certRzpOrderId">order_Aura96k</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-outline">RZP PAYMENT ID:</span>
+            <span class="text-[#7df4ff]" id="certRzpPaymentId">pay_AuraVerified</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-outline">GATEWAY CHANNEL:</span>
+            <span class="text-on-surface" id="certPaymentMethod">Razorpay UPI</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-outline">MASTER HARDWARE:</span>
+            <span class="text-on-surface" id="certHardwareName">AURA ONE (Forged Carbon)</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-outline">LASER MONOGRAM:</span>
+            <span class="text-secondary" id="certMonogram">"STUDIO MASTER 01"</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-outline">SETTLEMENT:</span>
+            <span class="text-primary font-semibold" id="certTotalPaid">$1,010.00</span>
+          </div>
+        </div>
+
+        <button class="w-full py-3 rounded-full bg-surface-container-highest text-on-surface hover:text-primary font-body-sm font-semibold transition-colors" id="finishOrderReturnBtn" type="button">
+          Return to Acoustic Studio
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODAL 5: INTERACTIVE RAZORPAY SECURE CHECKOUT GATEWAY               -->
+  <!-- =================================================================== -->
+  <div class="fixed inset-0 z-[60] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3" id="razorpayGatewayModal">
+    <div class="w-full max-w-[400px] rounded-2xl overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.95)] border border-[#3395ff]/30 bg-[#141824] text-white flex flex-col">
+      <!-- Razorpay Branded Top Header -->
+      <div class="bg-gradient-to-r from-[#0b1b3d] via-[#132c63] to-[#0f234f] p-4 flex items-center justify-between border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[#0d0e11] border border-[#d4af37]/50 flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 text-[#3395ff] fill-current" viewBox="0 0 24 24"><path d="M14.5 2L6 14h5.5l-2 8L18 10h-5.5l2-8z"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-sm text-[16px] font-semibold text-white tracking-tight">AURA Acoustic Atelier</span>
+              <span class="material-symbols-outlined text-[#3395ff] text-[15px]">verified</span>
+            </div>
+            <span class="font-spec-code-sm text-[10px] text-slate-300 uppercase tracking-wider" id="rzpModalOrderId">ORDER: order_96kStudio</span>
+          </div>
+        </div>
+        <div class="text-right flex flex-col items-end">
+          <button class="text-slate-300 hover:text-white mb-1" id="closeRzpGatewayBtn" type="button">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+          <span class="font-headline-sm text-[18px] font-bold text-[#f2ca50]" id="rzpModalAmount">$1,010.00</span>
+        </div>
+      </div>
+
+      <!-- Customer Contact Bar -->
+      <div class="bg-[#0e121b] px-4 py-2 flex items-center justify-between text-xs text-slate-300 border-b border-white/5 font-spec-code-sm">
+        <span id="rzpCustomerPhone">+91 98765 43210</span>
+        <span class="text-[#7df4ff]" id="rzpCustomerEmail">j.vance@atelier.ch</span>
+      </div>
+
+      <!-- Payment Method Tabs (UPI, Card, Netbanking, EMI/Wallet) -->
+      <div class="grid grid-cols-4 bg-[#101420] border-b border-white/10 font-spec-code-sm text-[10px] uppercase">
+        <button class="rzp-tab-btn active py-2.5 text-center border-b-2 border-[#3395ff] text-[#7df4ff] bg-[#182033] font-semibold" data-rzp-tab="upi" type="button">UPI / QR</button>
+        <button class="rzp-tab-btn py-2.5 text-center border-b-2 border-transparent text-slate-400 hover:text-white" data-rzp-tab="card" type="button">Cards</button>
+        <button class="rzp-tab-btn py-2.5 text-center border-b-2 border-transparent text-slate-400 hover:text-white" data-rzp-tab="netbanking" type="button">Netbanking</button>
+        <button class="rzp-tab-btn py-2.5 text-center border-b-2 border-transparent text-slate-400 hover:text-white" data-rzp-tab="emi" type="button">EMI / Wallet</button>
+      </div>
+
+      <!-- Method Panels -->
+      <div class="p-4 flex flex-col gap-3 bg-[#141824]">
+        <!-- Panel 1: UPI / QR -->
+        <div class="rzp-panel flex flex-col gap-3" id="rzp-panel-upi">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-[#0e121b] border border-white/10">
+            <!-- Simulated Instant UPI QR -->
+            <div class="w-20 h-20 rounded-lg bg-white p-1.5 shrink-0 flex items-center justify-center">
+              <svg class="w-full h-full text-black" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-5 0h2v3h-2v-3zm2 3h3v2h-3v-2zm-2 2h2v3h-2v-3zm5 0h3v3h-3v-3z"/>
+              </svg>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-headline-sm text-[14px] text-white font-semibold">Scan with any UPI App</span>
+              <span class="font-body-sm text-[11px] text-slate-400">GPay, PhonePe, Paytm, BHIM, CRED</span>
+              <div class="flex items-center gap-1.5 mt-1">
+                <span class="px-2 py-0.5 rounded bg-[#3395ff]/20 text-[#7df4ff] font-spec-code-sm text-[10px]">GPay</span>
+                <span class="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-spec-code-sm text-[10px]">PhonePe</span>
+                <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-spec-code-sm text-[10px]">Paytm</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="font-spec-code-sm text-[10px] text-slate-400 uppercase block mb-1">Or Enter UPI ID / VPA</label>
+            <input class="w-full bg-[#0e121b] text-white font-spec-code-sm text-xs px-3 py-2.5 rounded-lg border border-white/15 focus:outline-none focus:border-[#3395ff]" id="rzpUpiInput" placeholder="username@okicici" type="text" value="julian.aura@okhdfcbank"/>
+          </div>
+        </div>
+
+        <!-- Panel 2: Cards -->
+        <div class="rzp-panel hidden flex-col gap-2.5" id="rzp-panel-card">
+          <div>
+            <label class="font-spec-code-sm text-[10px] text-slate-400 uppercase block mb-1">Card Number (Visa / Mastercard / RuPay / Amex)</label>
+            <input class="w-full bg-[#0e121b] text-white font-spec-code-sm text-xs px-3 py-2.5 rounded-lg border border-white/15 focus:outline-none focus:border-[#3395ff]" id="rzpCardNumber" maxlength="19" type="text" value="4111 1111 1111 1111"/>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="font-spec-code-sm text-[10px] text-slate-400 uppercase block mb-1">Expiry</label>
+              <input class="w-full bg-[#0e121b] text-white font-spec-code-sm text-xs px-3 py-2 rounded-lg border border-white/15 focus:outline-none focus:border-[#3395ff]" type="text" value="09 / 29"/>
+            </div>
+            <div>
+              <label class="font-spec-code-sm text-[10px] text-slate-400 uppercase block mb-1">CVV</label>
+              <input class="w-full bg-[#0e121b] text-white font-spec-code-sm text-xs px-3 py-2 rounded-lg border border-white/15 focus:outline-none focus:border-[#3395ff]" maxlength="4" type="password" value="888"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Netbanking -->
+        <div class="rzp-panel hidden flex-col gap-2" id="rzp-panel-netbanking">
+          <span class="font-spec-code-sm text-[10px] text-slate-400 uppercase">Select Bank for Direct Settlement</span>
+          <div class="grid grid-cols-2 gap-2" id="rzpBankGrid">
+            <button class="rzp-bank-btn p-2.5 rounded-lg bg-[#1d2740] border border-[#3395ff] text-left font-body-sm text-xs font-medium text-white" data-bank="HDFC Bank" type="button">HDFC Bank</button>
+            <button class="rzp-bank-btn p-2.5 rounded-lg bg-[#0e121b] border border-white/10 text-left font-body-sm text-xs font-medium text-slate-300" data-bank="ICICI Bank" type="button">ICICI Bank</button>
+            <button class="rzp-bank-btn p-2.5 rounded-lg bg-[#0e121b] border border-white/10 text-left font-body-sm text-xs font-medium text-slate-300" data-bank="State Bank of India" type="button">State Bank (SBI)</button>
+            <button class="rzp-bank-btn p-2.5 rounded-lg bg-[#0e121b] border border-white/10 text-left font-body-sm text-xs font-medium text-slate-300" data-bank="Axis Bank" type="button">Axis Bank</button>
+          </div>
+        </div>
+
+        <!-- Panel 4: EMI & Wallets -->
+        <div class="rzp-panel hidden flex-col gap-2" id="rzp-panel-emi">
+          <div class="p-2.5 rounded-lg bg-[#1d2740] border border-[#3395ff] flex items-center justify-between">
+            <div>
+              <span class="font-body-sm text-xs font-semibold text-white block">Razorpay No-Cost Luxury EMI</span>
+              <span class="font-spec-code-sm text-[10px] text-[#7df4ff]">3 / 6 / 12 Months • 0% APR</span>
+            </div>
+            <span class="material-symbols-outlined text-[#3395ff] text-[18px]">check_circle</span>
+          </div>
+          <div class="p-2.5 rounded-lg bg-[#0e121b] border border-white/10 flex items-center justify-between">
+            <span class="font-body-sm text-xs text-slate-300">Amazon Pay / Paytm Wallet</span>
+            <span class="font-spec-code-sm text-[10px] text-slate-400">Instant</span>
+          </div>
+        </div>
+
+        <!-- Pay Now Button -->
+        <button class="w-full py-3.5 rounded-xl bg-[#3395ff] hover:bg-[#2384f0] text-white font-headline-sm text-[15px] font-semibold flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(51,149,255,0.4)] active:scale-[0.99] transition-all mt-1" id="rzpAuthorizePayBtn" type="button">
+          <span class="material-symbols-outlined text-[18px]">lock</span>
+          <span id="rzpAuthorizePayBtnText">Pay Now via Razorpay</span>
+        </button>
+
+        <div class="flex items-center justify-between text-[10px] text-slate-400 font-spec-code-sm pt-1">
+          <span class="flex items-center gap-1">
+            <svg class="w-3 h-3 text-[#3395ff] fill-current" viewBox="0 0 24 24"><path d="M14.5 2L6 14h5.5l-2 8L18 10h-5.5l2-8z"/></svg>
+            Secured by Razorpay
+          </span>
+          <span>PCI-DSS Level 1 • HMAC-SHA256</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
